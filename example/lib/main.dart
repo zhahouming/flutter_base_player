@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_base_player/flutter_base_player.dart';
 
 void main() {
+  FlutterBasePlayer.initialize();
   runApp(const MyApp());
 }
 
