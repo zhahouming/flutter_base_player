@@ -4,8 +4,6 @@ import 'package:flutter_base_player_platform_interface/flutter_base_player_platf
 
 export './flutter_base_player_video_player.dart';
 export './flutter_base_player_dart_vlc.dart';
-// export 'src/device_info_plus_linux.dart';
-// export 'src/device_info_plus_windows.dart';
 
 class FlutterBasePlayer {
   FlutterBasePlayer();
@@ -19,11 +17,15 @@ class FlutterBasePlayer {
   }
 
   setUrl(String url) {
-    return _platform.init(url);
+    return _platform.network(url);
   }
 
   play() {
     _platform.play();
+  }
+
+  pause() {
+    _platform.pause();
   }
 
   Widget builder(BuildContext context) {

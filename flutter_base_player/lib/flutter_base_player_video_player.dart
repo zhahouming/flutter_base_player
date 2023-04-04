@@ -1,5 +1,7 @@
 import 'dart:async';
-import 'package:flutter/src/widgets/framework.dart';
+import 'dart:io';
+// import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_base_player_platform_interface/flutter_base_player_platform_interface.dart';
 import 'package:video_player/video_player.dart';
 
@@ -10,99 +12,77 @@ class FlutterBasePlayerVideoPlayer extends FlutterBasePlayerPlatform {
 
   late VideoPlayerController _controller;
 
+  // Returns [size.width] / [size.height].
+  // Will return 1.0 if:
+  // [isInitialized] is false
+  // [size.width], or [size.height] is equal to 0.0
+  // aspect ratio would be less than or equal to 0.0
   @override
-  // TODO: implement aspectRatio
-  double get aspectRatio => throw UnimplementedError();
+  double get aspectRatio => _controller.value.aspectRatio;
 
   @override
   // TODO: implement buffered
   double get buffered => throw UnimplementedError();
 
   @override
-  // TODO: implement duration
-  Duration get duration => throw UnimplementedError();
+  Duration get duration => _controller.value.duration;
 
   @override
-  // TODO: implement errorMessage
-  String get errorMessage => throw UnimplementedError();
+  String? get errorMessage => _controller.value.errorDescription;
 
   @override
-  // TODO: implement hasError
-  bool get hasError => throw UnimplementedError();
+  bool get hasError => _controller.value.hasError;
 
   @override
-  // TODO: implement isBuffering
-  bool get isBuffering => throw UnimplementedError();
+  bool get isBuffering => _controller.value.isBuffering;
 
   @override
-  // TODO: implement isFullScreen
-  bool get isFullScreen => throw UnimplementedError();
+  bool get isInitialized => _controller.value.isInitialized;
 
   @override
-  // TODO: implement isInitialized
-  bool get isInitialized => throw UnimplementedError();
+  bool get isLooping => _controller.value.isLooping;
 
   @override
-  // TODO: implement isLooping
-  bool get isLooping => throw UnimplementedError();
+  bool get isPlaying => _controller.value.isPlaying;
 
   @override
-  // TODO: implement isPlaying
-  bool get isPlaying => throw UnimplementedError();
+  double get playbackSpeed => _controller.value.playbackSpeed;
 
   @override
-  // TODO: implement playbackSpeed
-  double get playbackSpeed => throw UnimplementedError();
+  Duration get position => _controller.value.position;
 
   @override
-  // TODO: implement position
-  Duration get position => throw UnimplementedError();
+  Size get size => _controller.value.size;
 
   @override
-  // TODO: implement size
-  double get size => throw UnimplementedError();
-
-  @override
-  // TODO: implement volume
-  double get volume => throw UnimplementedError();
-
-  @override
-  FlutterBasePlayerPlatform assets() {
-    // TODO: implement assets
-    throw UnimplementedError();
-  }
-
-  @override
-  void exitFullScreen() {
-    // TODO: implement exitFullScreen
-  }
+  double get volume => _controller.value.volume;
 
   @override
   void initialize() {
-    // donothing
+    // do nothing
   }
 
   @override
-  FlutterBasePlayerPlatform file() {
-    // TODO: implement file
-    throw UnimplementedError();
+  Future<void> assets(String path) {
+    _controller = VideoPlayerController.asset(path);
+    return _controller.initialize();
   }
 
   @override
-  Future<void> init(String url) {
+  Future<void> file(File file) {
+    _controller = VideoPlayerController.file(file);
+    return _controller.initialize();
+  }
+
+  @override
+  Future<void> network(String url) {
     _controller = VideoPlayerController.network(url);
     return _controller.initialize();
   }
 
   @override
-  FlutterBasePlayerPlatform network() {
-    // TODO: implement network
-    throw UnimplementedError();
-  }
-
-  @override
   void pause() {
-    // TODO: implement pause
+    _controller.pause();
   }
 
   @override
@@ -111,32 +91,35 @@ class FlutterBasePlayerVideoPlayer extends FlutterBasePlayerPlatform {
   }
 
   @override
-  void requestFullScreen() {
-    // TODO: implement requestFullScreen
+  void seek(Duration position) {
+    _controller.seekTo(position);
   }
 
   @override
-  void seek() {
-    // TODO: implement seek
+  void setLooping(bool looping) {
+    _controller.setLooping(looping);
   }
 
   @override
-  void setLooping() {
-    // TODO: implement setLooping
+  void setPlaybackSpeed(double speed) {
+    _controller.setPlaybackSpeed(speed);
   }
 
   @override
-  void setPlaybackSpeed() {
-    // TODO: implement setPlaybackSpeed
+  void setVolume(double volume) {
+    _controller.setVolume(volume);
   }
 
   @override
-  void setVolume() {
-    // TODO: implement setVolume
-  }
+  Widget builder(BuildContext context, [double? height, double? width]) {
+    height ??= MediaQuery.of(context).size.width / 16 * 9;
+    width ??= MediaQuery.of(context).size.width;
 
-  @override
-  Widget builder(BuildContext context) {
-    return VideoPlayer(_controller);
+    return Container(
+      height: height,
+      width: width,
+      decoration: const BoxDecoration(color: Color.fromARGB(0, 0, 0, 0)),
+      child: VideoPlayer(_controller),
+    );
   }
 }
