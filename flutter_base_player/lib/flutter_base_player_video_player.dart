@@ -78,6 +78,11 @@ class FlutterBasePlayerVideoPlayer extends FlutterBasePlayerPlatform {
   }
 
   @override
+  void initialize() {
+    // donothing
+  }
+
+  @override
   FlutterBasePlayerPlatform file() {
     // TODO: implement file
     throw UnimplementedError();

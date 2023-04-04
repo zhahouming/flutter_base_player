@@ -14,6 +14,10 @@ class FlutterBasePlayer {
     return FlutterBasePlayerPlatform.instance;
   }
 
+  static initialize() {
+    FlutterBasePlayerPlatform.instance.initialize();
+  }
+
   setUrl(String url) {
     return _platform.init(url);
   }

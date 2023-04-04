@@ -31,6 +31,7 @@ abstract class FlutterBasePlayerPlatform extends PlatformInterface {
 
   Future<void> init(String url);
   void play();
+  void initialize();
   void pause();
   void seek();
   void setVolume();

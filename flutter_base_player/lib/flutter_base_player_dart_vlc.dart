@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_base_player_platform_interface/flutter_base_player_platform_interface.dart';
 import 'package:dart_vlc/dart_vlc.dart';
@@ -84,18 +85,25 @@ class FlutterBasePlayerDartVlcPlayer extends FlutterBasePlayerPlatform {
   }
 
   @override
-  Future<void> init(String url) async {
+  Future<void> init(String url) {
     _controller = Player(id: 0);
     _controller.open(
       Media.network(url),
       autoStart: true, // default
     );
+    return Future.value();
   }
 
   @override
   FlutterBasePlayerPlatform network() {
     // TODO: implement network
     throw UnimplementedError();
+  }
+  @override
+  void initialize() {
+    if (Platform.isWindows || Platform.isLinux) {
+      DartVLC.initialize();
+    }
   }
 
   @override
@@ -137,8 +145,8 @@ class FlutterBasePlayerDartVlcPlayer extends FlutterBasePlayerPlatform {
   Widget builder(BuildContext context) {
     return Video(
       player: _controller,
-      width: 640,
-      height: 360,
+      // width: 640,
+      // height: 360,
       showControls: true,
     );
   }
