@@ -3,8 +3,64 @@ import 'dart:io';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_base_player_platform_interface/flutter_base_player_platform_interface.dart';
 import 'package:dart_vlc/dart_vlc.dart';
+import 'change_notifier_builder.dart';
 
 class FlutterBasePlayerDartVlcPlayer extends FlutterBasePlayerPlatform {
+  _positionListener(event) {
+    // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
+    _eventStream.notifyListeners();
+  }
+
+  _generalListener(event) {
+    // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
+    _eventStream.notifyListeners();
+  }
+
+  _errorListener(event) {
+    // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
+    _eventStream.notifyListeners();
+  }
+
+  _playbackListener(event) {
+    // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
+    _eventStream.notifyListeners();
+  }
+
+  _videoDimensionListener(event) {
+    // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
+    _eventStream.notifyListeners();
+  }
+
+  _currentListener(event) {
+    // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
+    _eventStream.notifyListeners();
+  }
+
+  _bufferingProgressListener(event) {
+    // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
+    _eventStream.notifyListeners();
+  }
+
+  initListeners() {
+    _controller.positionStream.listen(_positionListener);
+    _controller.generalStream.listen(_generalListener);
+    _controller.errorStream.listen(_errorListener);
+    _controller.playbackStream.listen(_playbackListener);
+    _controller.videoDimensionsStream.listen(_videoDimensionListener);
+    _controller.currentStream.listen(_currentListener);
+    _controller.bufferingProgressStream.listen(_bufferingProgressListener);
+  }
+
+  disposeListeners() {
+    // _controller.positionStream (_positionListener);
+    // _controller.generalStream.listen(_generalListener);
+    // _controller.errorStream.listen(_errorListener);
+    // _controller.playbackStream.listen(_playbackListener);
+    // _controller.videoDimensionsStream.listen(_videoDimensionListener);
+    // _controller.currentStream.listen(_currentListener);
+    // _controller.bufferingProgressStream.listen(_bufferingProgressListener);
+  }
+
   static void registerWith() {
     FlutterBasePlayerPlatform.instance = FlutterBasePlayerDartVlcPlayer();
   }
@@ -105,6 +161,12 @@ class FlutterBasePlayerDartVlcPlayer extends FlutterBasePlayerPlatform {
   }
 
   @override
+  void dispose() {
+    _eventStream.dispose();
+    _controller.dispose();
+  }
+
+  @override
   void pause() {
     _controller.pause();
   }
@@ -136,16 +198,28 @@ class FlutterBasePlayerDartVlcPlayer extends FlutterBasePlayerPlatform {
     _controller.setRate(volume);
   }
 
-  @override
-  Widget builder(BuildContext context, [double? height, double? width]) {
-    height ??= MediaQuery.of(context).size.width / 16 * 9;
-    width ??= MediaQuery.of(context).size.width;
+  final ChangeNotifier _eventStream = ChangeNotifier();
 
-    return Video(
-      player: _controller,
-      width: width,
-      height: height,
-      showControls: false,
+  @override
+  ChangeNotifier get eventStream => _eventStream;
+
+  @override
+  Widget builder(BuildContext context, [BoxFit? fit, double? ratio]) {
+    return ChangeNotifierBuilder(
+      notifier: _eventStream,
+      builder: (context) {
+        return LayoutBuilder(
+          builder: (BuildContext context, BoxConstraints box) {
+            return Video(
+              fit: fit ?? BoxFit.contain,
+              player: _controller,
+              width: box.maxWidth,
+              height: box.maxWidth / (ratio ?? aspectRatio),
+              showControls: false,
+            );
+          },
+        );
+      },
     );
   }
 }

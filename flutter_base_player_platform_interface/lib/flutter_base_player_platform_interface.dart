@@ -7,10 +7,10 @@ import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 /// Support platform: Android, iOS, MacOS, Windows, Linux and Web
 /// We use video_player for Android and iOS, video_player_macos for MacOS, dart_vlc for Windows and Linux
 /// Support source: assets, file, network
-/// Methods: init, play, pause, seek, setVolume, setPlaybackSpeed, setLooping
+/// Methods: play, pause, seek, setVolume, setPlaybackSpeed, setLooping
 /// Value: aspectRatio, buffered, duration, hasError, errorMessage, playbackSpeed, position, size, volume
 /// isBuffering, isInitialized, isLooping, isPlaying
-/// Factory function: assets, file, url
+/// EventStream: positionStream,
 /// Init parameters: initialDuration
 abstract class FlutterBasePlayerPlatform extends PlatformInterface {
   FlutterBasePlayerPlatform() : super(token: _token);
@@ -30,14 +30,20 @@ abstract class FlutterBasePlayerPlatform extends PlatformInterface {
   Future<void> file(File file);
   Future<void> network(String url);
 
-  void play();
   void initialize();
+  void dispose();
+  void play();
   void pause();
   void seek(Duration position);
   void setVolume(double volume);
   void setPlaybackSpeed(double speed);
   void setLooping(bool looping);
 
+  // Returns [size.width] / [size.height].
+  // Will return 1.0 if:
+  // [isInitialized] is false
+  // [size.width], or [size.height] is equal to 0.0
+  // aspect ratio would be less than or equal to 0.0
   double get aspectRatio;
   double get buffered;
   Duration get duration;
@@ -51,5 +57,11 @@ abstract class FlutterBasePlayerPlatform extends PlatformInterface {
   bool get isInitialized;
   bool get isLooping;
   bool get isPlaying;
-  Widget builder(BuildContext context, [double? height, double? width]);
+
+  ChangeNotifier get eventStream;
+
+  // fit decide the video cut style
+  // builder is constrained by parent widget
+  // ratio for container height calc, it may conflict with box`s maxHeight
+  Widget builder(BuildContext context, [BoxFit? fit, double? ratio]);
 }

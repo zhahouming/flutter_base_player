@@ -4,8 +4,19 @@ import 'dart:io';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_base_player_platform_interface/flutter_base_player_platform_interface.dart';
 import 'package:video_player/video_player.dart';
+import 'change_notifier_builder.dart';
 
 class FlutterBasePlayerVideoPlayer extends FlutterBasePlayerPlatform {
+  initListeners() {
+    // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
+    _controller.addListener(_eventStream.notifyListeners);
+  }
+
+  disposeListeners() {
+    // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
+    _controller.removeListener(_eventStream.notifyListeners);
+  }
+
   static void registerWith() {
     FlutterBasePlayerPlatform.instance = FlutterBasePlayerVideoPlayer();
   }
@@ -63,20 +74,29 @@ class FlutterBasePlayerVideoPlayer extends FlutterBasePlayerPlatform {
   }
 
   @override
+  void dispose() {
+    _eventStream.dispose();
+    _controller.dispose();
+  }
+
+  @override
   Future<void> assets(String path) {
     _controller = VideoPlayerController.asset(path);
+    initListeners();
     return _controller.initialize();
   }
 
   @override
   Future<void> file(File file) {
     _controller = VideoPlayerController.file(file);
+    initListeners();
     return _controller.initialize();
   }
 
   @override
   Future<void> network(String url) {
     _controller = VideoPlayerController.network(url);
+    initListeners();
     return _controller.initialize();
   }
 
@@ -110,16 +130,36 @@ class FlutterBasePlayerVideoPlayer extends FlutterBasePlayerPlatform {
     _controller.setVolume(volume);
   }
 
-  @override
-  Widget builder(BuildContext context, [double? height, double? width]) {
-    height ??= MediaQuery.of(context).size.width / 16 * 9;
-    width ??= MediaQuery.of(context).size.width;
+  final ChangeNotifier _eventStream = ChangeNotifier();
 
-    return Container(
-      height: height,
-      width: width,
-      decoration: const BoxDecoration(color: Color.fromARGB(0, 0, 0, 0)),
-      child: VideoPlayer(_controller),
+  @override
+  ChangeNotifier get eventStream => _eventStream;
+
+  @override
+  Widget builder(BuildContext context, [BoxFit? fit, double? ratio]) {
+    return ChangeNotifierBuilder(
+      notifier: _eventStream,
+      builder: (context) {
+        return LayoutBuilder(
+          builder: (BuildContext context, BoxConstraints box) {
+            double ratioHeight = box.maxWidth / (ratio ?? aspectRatio);
+            return Container(
+                height:
+                    ratioHeight > box.maxHeight ? box.maxHeight : ratioHeight,
+                width: box.maxWidth,
+                decoration:
+                    const BoxDecoration(color: Color.fromARGB(0, 0, 0, 0)),
+                child: FittedBox(
+                  fit: fit ?? BoxFit.contain,
+                  child: SizedBox(
+                    height: size.height,
+                    width: size.width,
+                    child: VideoPlayer(_controller),
+                  ),
+                ));
+          },
+        );
+      },
     );
   }
 }
