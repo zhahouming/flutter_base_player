@@ -76,8 +76,13 @@ class FlutterBasePlayerDartVlcPlayer extends FlutterBasePlayerPlatform {
   // [size.width], or [size.height] is equal to 0.0
   // aspect ratio would be less than or equal to 0.0
   @override
-  double get aspectRatio =>
-      _controller.videoDimensions.width / _controller.videoDimensions.height;
+  double get aspectRatio {
+    print('videoDimensions ${_controller.videoDimensions}');
+    if (_controller.videoDimensions.height.isNaN || _controller.videoDimensions.height == 0) {
+      return 16 / 9;
+    }
+    return _controller.videoDimensions.width / _controller.videoDimensions.height;
+  }
 
   @override
   // TODO: implement buffered
@@ -111,7 +116,7 @@ class FlutterBasePlayerDartVlcPlayer extends FlutterBasePlayerPlatform {
 
   @override
   Duration get position =>
-      _controller.position.duration ?? const Duration(seconds: 0);
+      _controller.position.position ?? const Duration(seconds: 0);
 
   @override
   Size get size => Size(_controller.videoDimensions.width.toDouble(),
@@ -127,6 +132,7 @@ class FlutterBasePlayerDartVlcPlayer extends FlutterBasePlayerPlatform {
       Media.asset(path),
       autoStart: true,
     );
+    initListeners();
     _isInitialized = true;
     return Future.value();
   }
@@ -138,6 +144,7 @@ class FlutterBasePlayerDartVlcPlayer extends FlutterBasePlayerPlatform {
       Media.file(file),
       autoStart: true,
     );
+    initListeners();
     _isInitialized = true;
     return Future.value();
   }
@@ -149,6 +156,7 @@ class FlutterBasePlayerDartVlcPlayer extends FlutterBasePlayerPlatform {
       Media.network(url),
       autoStart: true,
     );
+    initListeners();
     _isInitialized = true;
     return Future.value();
   }
@@ -195,7 +203,7 @@ class FlutterBasePlayerDartVlcPlayer extends FlutterBasePlayerPlatform {
 
   @override
   void setVolume(double volume) {
-    _controller.setRate(volume);
+    _controller.setVolume(volume);
   }
 
   final ChangeNotifier _eventStream = ChangeNotifier();

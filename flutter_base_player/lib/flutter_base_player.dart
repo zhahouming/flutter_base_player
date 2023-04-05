@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_base_player_platform_interface/flutter_base_player_platform_interface.dart';
 
+export './change_notifier_builder.dart';
 export './flutter_base_player_video_player.dart';
 export './flutter_base_player_dart_vlc.dart';
 
