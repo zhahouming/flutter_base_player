@@ -1,7 +1,8 @@
 name: flutter_base_player
-description: A new Flutter package project.
-version: 0.0.1
-homepage:
+description: Universal video player for flutter
+repository: https://github.com/zhahouming/flutter_base_player/flutter_base_player
+version: 0.1.0
+homepage: https://github.com/zhahouming/flutter_base_player/flutter_base_player
 
 flutter:
   plugin:
@@ -20,10 +21,9 @@ flutter:
 dependencies:
   flutter:
     sdk: flutter
-  flutter_base_player_platform_interface:
-    path: ../flutter_base_player_platform_interface
-  video_player: 2.4.5
-  video_player_macos: 1.0.6
+  flutter_base_player_platform_interface: ^0.1.0
+  video_player: ^2.4.5
+  video_player_macos: ^1.0.6
   dart_vlc: ^0.4.0
 
 dev_dependencies:
@@ -32,5 +32,5 @@ dev_dependencies:
   flutter_lints: ^2.0.0
 
 environment:
-  sdk: '>=2.18.0 <3.0.0'
-  flutter: ">=1.17.0"
+  sdk: '>=2.17.0 <3.0.0'
+  flutter: ">=2.0.0"

@@ -77,11 +77,12 @@ class FlutterBasePlayerDartVlcPlayer extends FlutterBasePlayerPlatform {
   // aspect ratio would be less than or equal to 0.0
   @override
   double get aspectRatio {
-    print('videoDimensions ${_controller.videoDimensions}');
-    if (_controller.videoDimensions.height.isNaN || _controller.videoDimensions.height == 0) {
+    if (_controller.videoDimensions.height.isNaN ||
+        _controller.videoDimensions.height == 0) {
       return 16 / 9;
     }
-    return _controller.videoDimensions.width / _controller.videoDimensions.height;
+    return _controller.videoDimensions.width /
+        _controller.videoDimensions.height;
   }
 
   @override
@@ -185,8 +186,8 @@ class FlutterBasePlayerDartVlcPlayer extends FlutterBasePlayerPlatform {
   }
 
   @override
-  void seek(Duration duration) {
-    _controller.seek(duration);
+  void seek(Duration position) {
+    _controller.seek(position);
   }
 
   @override

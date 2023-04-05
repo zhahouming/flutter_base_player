@@ -70,7 +70,7 @@ class FlutterBasePlayerVideoPlayer extends FlutterBasePlayerPlatform {
 
   @override
   void initialize() {
-    // do nothing
+    // do nothing, dart_vlc need only
   }
 
   @override
@@ -148,7 +148,6 @@ class FlutterBasePlayerVideoPlayer extends FlutterBasePlayerPlatform {
                 height:
                     ratioHeight > box.maxHeight ? box.maxHeight : ratioHeight,
                 width: box.maxWidth,
-                clipBehavior: Clip.hardEdge,
                 decoration:
                     const BoxDecoration(color: Color.fromARGB(0, 0, 0, 0)),
                 child: FittedBox(

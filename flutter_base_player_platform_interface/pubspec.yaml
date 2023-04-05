@@ -1,11 +1,11 @@
 name: flutter_base_player_platform_interface
 description: A common platform interface for the flutter_base_player plugin.
 repository: https://github.com/zhahouming/flutter_base_player/flutter_base_player_platform_interface
-version: 0.0.1
+version: 0.1.0
 homepage: https://github.com/zhahouming/flutter_base_player/flutter_base_player_platform_interface
 
 environment:
-  sdk: '>=2.18.0 <3.0.0'
+  sdk: '>=2.17.0 <3.0.0'
   flutter: ">=1.17.0"
 
 dependencies:

@@ -1,39 +1,292 @@
-<!--
-This README describes the package. If you publish this package to pub.dev,
-this README's contents appear on the landing page for your package.
+> Universal video player for flutter
 
-For information about how to write a good package README, see the guide for
-[writing package pages](https://dart.dev/guides/libraries/writing-package-pages).
+## Support Platform
 
-For general information about developing packages, see the Dart guide for
-[creating packages](https://dart.dev/guides/libraries/create-library-packages)
-and the Flutter guide for
-[developing packages and plugins](https://flutter.dev/developing-packages).
--->
+Android, iOS, MacOS, Windows, Linux
 
-TODO: Put a short description of the package here that helps potential users
-know whether this package might be useful for them.
+## Installation
 
-## Features
+We use [video_player](https://pub.dev/packages/video_player) for Android and iOS, [video_player_macos](https://pub.dev/packages/video_player_macos) for MacOS, [dart_vlc](https://pub.dev/packages/dart_vlc) for Windows and Linux.
 
-TODO: List what your package can do. Maybe include images, gifs, or videos.
+They have some additional configuration steps, please refer to the instructions provided by these packages
 
-## Getting started
-
-TODO: List prerequisites and provide or point to information on how to
-start using the package.
-
-## Usage
-
-TODO: Include short and useful examples for package users. Add longer examples
-to `/example` folder.
+## Example
 
 ```dart
-const like = 'sample';
+import 'package:flutter/material.dart';
+import 'package:flutter_base_player/flutter_base_player.dart';
+
+void main() {
+  FlutterBasePlayer.initialize();
+  runApp(const MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Flutter Demo',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+    );
+  }
+}
+
+class MyHomePage extends StatefulWidget {
+  const MyHomePage({super.key, required this.title});
+
+  final String title;
+
+  @override
+  State<MyHomePage> createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+  FlutterBasePlayer player = FlutterBasePlayer();
+
+  BoxFit fit = BoxFit.contain;
+  double ratio = 4 / 3;
+
+  @override
+  void initState() {
+    player.loadNetwork('https://media.w3.org/2010/05/sintel/trailer.mp4');
+    // player.loadNetwork('http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4');
+    player.play();
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(widget.title),
+      ),
+      body: ListView(
+        children: [
+          const Center(
+            child: Text(
+              'Video Test',
+              style: TextStyle(fontSize: 24, height: 2),
+            ),
+          ),
+          SizedBox(
+            height: 300,
+            width: 300,
+            child: player.builder(context, fit: fit,),
+            // child: player.builder(context, fit: fit, ratio: ratio),
+          ),
+          const SizedBox(height: 30),
+          Wrap(
+            spacing: 20,
+            runSpacing: 10,
+            children: [
+              TextButton(onPressed: player.play, child: const Text('play')),
+              TextButton(onPressed: player.pause, child: const Text('pause')),
+              TextButton(
+                onPressed: () {
+                  setState(() {
+                    fit = BoxFit.contain;
+                  });
+                },
+                child: const Text('contain'),
+              ),
+              TextButton(
+                onPressed: () {
+                  setState(() {
+                    fit = BoxFit.cover;
+                  });
+                },
+                child: const Text('cover'),
+              ),
+              TextButton(
+                onPressed: () {
+                  setState(() {
+                    fit = BoxFit.fill;
+                  });
+                },
+                child: const Text('fill'),
+              ),
+              TextButton(
+                onPressed: () {
+                  player.seek(const Duration(seconds: 10));
+                },
+                child: const Text('seek to 10s'),
+              ),
+              TextButton(
+                onPressed: () {
+                  player.seek(const Duration(seconds: 20));
+                },
+                child: const Text('seek to 20s'),
+              ),
+              TextButton(
+                onPressed: () {
+                  player.seek(const Duration(seconds: 30));
+                },
+                child: const Text('seek to 30s'),
+              ),
+              TextButton(
+                onPressed: () {
+                  player.seek(const Duration(seconds: 40));
+                },
+                child: const Text('seek to 40s'),
+              ),
+              TextButton(
+                onPressed: () {
+                  player.seek(const Duration(seconds: 50));
+                },
+                child: const Text('seek to 50s'),
+              ),
+              TextButton(
+                onPressed: () {
+                  player.setLooping(true);
+                },
+                child: const Text('setLooping true'),
+              ),
+              TextButton(
+                onPressed: () {
+                  player.setLooping(false);
+                },
+                child: const Text('setLooping false'),
+              ),
+              TextButton(
+                onPressed: () {
+                  player.setPlaybackSpeed(1.0);
+                },
+                child: const Text('setPlaybackSpeed 1.0'),
+              ),
+              TextButton(
+                onPressed: () {
+                  player.setPlaybackSpeed(0.5);
+                },
+                child: const Text('setPlaybackSpeed 0.5'),
+              ),
+              TextButton(
+                onPressed: () {
+                  player.setPlaybackSpeed(2.0);
+                },
+                child: const Text('setPlaybackSpeed 2.0'),
+              ),
+              TextButton(
+                onPressed: () {
+                  player.setVolume(1.0);
+                },
+                child: const Text('setVolume 1.0'),
+              ),
+              TextButton(
+                onPressed: () {
+                  player.setVolume(0.8);
+                },
+                child: const Text('setVolume 0.8'),
+              ),
+              TextButton(
+                onPressed: () {
+                  player.setVolume(0.6);
+                },
+                child: const Text('setVolume 0.6'),
+              ),
+              TextButton(
+                onPressed: () {
+                  player.setVolume(0.0);
+                },
+                child: const Text('setVolume 0.0'),
+              ),
+            ],
+          ),
+          const SizedBox(height: 30),
+          const Text('initial state:'),
+          Wrap(
+              spacing: 30,
+              runSpacing: 10,
+              alignment: WrapAlignment.start,
+              children: [
+                Text('position: ${player.position}'),
+                Text('duration: ${player.duration}'),
+                Text('aspectRatio: ${player.aspectRatio}'),
+                Text('isPlaying: ${player.isPlaying}'),
+                
+                Text('playbackSpeed: ${player.playbackSpeed}'),
+                Text('size: ${player.size}'),
+                Text('volume: ${player.volume}'),
+
+                Text('errorMessage: ${player.errorMessage}'),
+                Text('hasError: ${player.hasError}'),
+
+                Text('isBuffering: ${player.isBuffering}'),
+                Text('isInitialized: ${player.isInitialized}'),
+                Text('isLooping: ${player.isLooping}'),
+              ],
+          ),
+          const SizedBox(height: 30),
+          const Text('real-time state:'),
+          ChangeNotifierBuilder(
+            notifier: player.eventStream,
+            builder: (context) {
+              print('player.eventStream');
+              return Wrap(
+                spacing: 30,
+                runSpacing: 10,
+                children: [
+                  Text('position: ${player.position}'),
+                  Text('duration: ${player.duration}'),
+                  Text('aspectRatio: ${player.aspectRatio}'),
+                  Text('isPlaying: ${player.isPlaying}'),
+                  
+                  Text('playbackSpeed: ${player.playbackSpeed}'),
+                  Text('size: ${player.size}'),
+                  Text('volume: ${player.volume}'),
+
+                  Text('errorMessage: ${player.errorMessage}'),
+                  Text('hasError: ${player.hasError}'),
+
+                  Text('isBuffering: ${player.isBuffering}'),
+                  Text('isInitialized: ${player.isInitialized}'),
+                  Text('isLooping: ${player.isLooping}'),
+                ],
+              );
+            }
+          )
+          
+        ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          player.play();
+        },
+        child: const Icon(Icons.play_circle),
+      ),
+    );
+  }
+}
 ```
 
-## Additional information
+## Property
+- aspectRatio: double, width / height
+- buffered: todo
+- duration: Duration
+- hasError: bool
+- errorMessage: String
+- playbackSpeed: double
+- position: Duration
+- size: Size
+- volume: double
+- isBuffering: bool
+- isInitialized: bool
+- isLooping: bool
+- isPlaying: bool
+- positionStream: ChangeNotifier, events emitter
 
-TODO: Tell users more about the package: where to find more information, how to
-contribute to the package, how to file issues, what response they can expect
-from the package authors, and more.
+## Methods
+- assets
+- file
+- network, set network datasource and init player controler 
+- play
+- pause
+- seek
+- setVolume
+- setPlaybackSpeed
+- setLooping
+- builder, video player container
