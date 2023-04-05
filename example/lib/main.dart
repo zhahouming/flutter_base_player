@@ -33,10 +33,13 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   FlutterBasePlayer player = FlutterBasePlayer();
 
+  BoxFit fit = BoxFit.contain;
+  double ratio = 4 / 3;
+
   @override
   void initState() {
-    player.setUrl('https://media.w3.org/2010/05/sintel/trailer.mp4');
-    // player.setUrl('http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4');
+    player.loadNetwork('https://media.w3.org/2010/05/sintel/trailer.mp4');
+    // player.loadNetwork('http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4');
     player.play();
     super.initState();
   }
@@ -50,13 +53,64 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Column(
         children: [
           const Center(
-            child: Text('video test'),
+            child: Text(
+              'Video Test',
+              style: TextStyle(fontSize: 24, height: 2),
+            ),
           ),
-          player.builder(context),
+          SizedBox(
+            height: 300,
+            width: 300,
+            child: player.builder(context, fit: fit, ratio: ratio),
+          ),
           Row(
             children: [
               TextButton(onPressed: player.play, child: const Text('play')),
               TextButton(onPressed: player.pause, child: const Text('pause')),
+            ],
+          ),
+          Row(
+            children: [
+              TextButton(
+                onPressed: () {
+                  setState(() {
+                    fit = BoxFit.contain;
+                  });
+                },
+                child: const Text('contain'),
+              ),
+              TextButton(
+                onPressed: () {
+                  setState(() {
+                    fit = BoxFit.cover;
+                  });
+                },
+                child: const Text('cover'),
+              ),
+              TextButton(
+                onPressed: () {
+                  setState(() {
+                    fit = BoxFit.fill;
+                  });
+                },
+                child: const Text('fill'),
+              ),
+              TextButton(
+                onPressed: () {
+                  setState(() {
+                    fit = BoxFit.fitHeight;
+                  });
+                },
+                child: const Text('fitHeight'),
+              ),
+              TextButton(
+                onPressed: () {
+                  setState(() {
+                    fit = BoxFit.fitWidth;
+                  });
+                },
+                child: const Text('fitWidth'),
+              ),
             ],
           ),
         ],
