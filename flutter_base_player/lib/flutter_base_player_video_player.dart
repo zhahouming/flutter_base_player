@@ -143,10 +143,12 @@ class FlutterBasePlayerVideoPlayer extends FlutterBasePlayerPlatform {
         return LayoutBuilder(
           builder: (BuildContext context, BoxConstraints box) {
             double ratioHeight = box.maxWidth / (ratio ?? aspectRatio);
-            return Container(
+            return ClipRect(
+              child: Container(
                 height:
                     ratioHeight > box.maxHeight ? box.maxHeight : ratioHeight,
                 width: box.maxWidth,
+                clipBehavior: Clip.hardEdge,
                 decoration:
                     const BoxDecoration(color: Color.fromARGB(0, 0, 0, 0)),
                 child: FittedBox(
@@ -156,7 +158,9 @@ class FlutterBasePlayerVideoPlayer extends FlutterBasePlayerPlatform {
                     width: size.width,
                     child: VideoPlayer(_controller),
                   ),
-                ));
+                ),
+              ),
+            );
           },
         );
       },
