@@ -28,7 +28,7 @@ abstract class FlutterBasePlayerPlatform extends PlatformInterface {
 
   Future<void> assets(String path);
   Future<void> file(File file);
-  Future<void> network(String url);
+  Future<void> network(String url, [String? headers]);
 
   void initialize();
   void dispose();
@@ -38,6 +38,9 @@ abstract class FlutterBasePlayerPlatform extends PlatformInterface {
   void setVolume(double volume);
   void setPlaybackSpeed(double speed);
   void setLooping(bool looping);
+  void setVideoTrack(dynamic track);
+  void setAudioTrack(dynamic track);
+  void setSubtitleTrack(dynamic track);
 
   // Returns [size.width] / [size.height].
   // Will return 1.0 if:
@@ -57,6 +60,12 @@ abstract class FlutterBasePlayerPlatform extends PlatformInterface {
   bool get isInitialized;
   bool get isLooping;
   bool get isPlaying;
+  dynamic get videoTrack;
+  dynamic get videoTracks;
+  dynamic get audioTrack;
+  dynamic get audioTracks;
+  dynamic get subtitleTrack;
+  dynamic get subtitleTracks;
 
   ChangeNotifier get eventStream;
 
