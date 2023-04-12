@@ -1,3 +1,7 @@
+## 0.1.2
+
+- fix dispose error
+
 ## 0.1.1
 
 - Use media_kit for iOS, MacOS, Windows, Linux

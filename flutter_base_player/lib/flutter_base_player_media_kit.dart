@@ -176,10 +176,10 @@ class FlutterBasePlayerMediaKitPlayer extends FlutterBasePlayerPlatform {
   @override
   void dispose() {
     Future.microtask(() async {
-      eventStream.dispose();
-      precompleteStream.dispose();
       await _controller?.dispose();
       await _player.dispose();
+      eventStream.dispose();
+      precompleteStream.dispose();
     });
   }
 

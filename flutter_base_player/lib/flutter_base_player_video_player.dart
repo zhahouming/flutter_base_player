@@ -98,9 +98,9 @@ class FlutterBasePlayerVideoPlayer extends FlutterBasePlayerPlatform {
 
   @override
   void dispose() {
+    _controller?.dispose();
     precompleteStream.dispose();
     _eventStream.dispose();
-    _controller?.dispose();
   }
 
   @override

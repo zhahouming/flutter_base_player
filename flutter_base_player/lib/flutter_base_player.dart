@@ -39,6 +39,10 @@ class FlutterBasePlayer {
     return _platform.network(url);
   }
 
+  dispose() {
+    _platform.dispose();
+  }
+
   play() {
     _platform.play();
   }

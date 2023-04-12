@@ -19,7 +19,25 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const LauncherPage(),
+    );
+  }
+}
+
+class LauncherPage extends StatelessWidget {
+  const LauncherPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return TextButton(
+      onPressed: () {
+        Navigator.of(context).push(
+          MaterialPageRoute(
+              builder: (context) =>
+                  const MyHomePage(title: 'Flutter Demo Home Page')),
+        );
+      },
+      child: const Text('jump'),
     );
   }
 }
@@ -60,10 +78,21 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   void initState() {
-    player2.loadNetwork('http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4');
-    player2.play();
-    player2.setLooping(true);
+    Future.microtask(() async {
+      await player2
+          .loadNetwork('http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4');
+      player2.play();
+      player2.setLooping(true);
+    });
+
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    player.dispose();
+    player2.dispose();
+    super.dispose();
   }
 
   @override
