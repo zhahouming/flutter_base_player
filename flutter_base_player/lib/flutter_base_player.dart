@@ -1,22 +1,30 @@
 import 'dart:io';
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_base_player_platform_interface/flutter_base_player_platform_interface.dart';
 
 export './change_notifier_builder.dart';
 export './flutter_base_player_video_player.dart';
-export './flutter_base_player_dart_vlc.dart';
+export './flutter_base_player_media_kit.dart';
+export 'package:flutter_base_player_platform_interface/flutter_base_player_platform_interface.dart'
+    show BaseTrack;
 
 class FlutterBasePlayer {
-  FlutterBasePlayer();
-
-  static FlutterBasePlayerPlatform get _platform {
-    return FlutterBasePlayerPlatform.instance;
+  late FlutterBasePlayerPlatform _platform;
+  FlutterBasePlayer() {
+    _platform = FlutterBasePlayerPlatform.instance();
   }
-
   static initialize() {
-    FlutterBasePlayerPlatform.instance.initialize();
+    // FlutterBasePlayerPlatform.instance.initialize();
   }
 
+  // static FlutterBasePlayerPlatform get _platform {
+  //   return FlutterBasePlayerPlatform.instance();
+  // }
+
+  FlutterBasePlayerPlatform? player;
+
+  /// assets path example: assets://path/to/your/file.mp4
   Future<void> loadAssets(String path) {
     return _platform.assets(path);
   }
@@ -25,7 +33,9 @@ class FlutterBasePlayer {
     return _platform.file(file);
   }
 
-  Future<void> loadNetwork(String url) {
+  /// url example: https://www.example.com/sample.mp4
+  /// rtsp://www.example.com/live
+  Future<void> loadNetwork(String url, [String? headers]) {
     return _platform.network(url);
   }
 
@@ -53,8 +63,9 @@ class FlutterBasePlayer {
     _platform.setVolume(volume);
   }
 
-  Widget builder(BuildContext context, {BoxFit? fit, double? ratio}) {
-    return _platform.builder(context, fit, ratio);
+  Widget builder(BuildContext context,
+      {BoxFit? fit, double? ratio, Color? color}) {
+    return _platform.builder(context, fit, ratio, color);
   }
 
   // Returns [size.width] / [size.height].
@@ -89,4 +100,28 @@ class FlutterBasePlayer {
   double get volume => _platform.volume;
 
   ChangeNotifier get eventStream => _platform.eventStream;
+
+  BaseTrack? get audioTrack => _platform.audioTrack;
+
+  List<BaseTrack?> get audioTracks => _platform.audioTracks;
+
+  void setAudioTrack(BaseTrack track) {
+    _platform.setAudioTrack(track);
+  }
+
+  void setSubtitleTrack(BaseTrack track) {
+    _platform.setSubtitleTrack(track);
+  }
+
+  void setVideoTrack(BaseTrack track) {
+    _platform.setVideoTrack(track);
+  }
+
+  BaseTrack? get subtitleTrack => _platform.subtitleTrack;
+
+  List<BaseTrack?> get subtitleTracks => _platform.subtitleTracks;
+
+  BaseTrack? get videoTrack => _platform.videoTrack;
+
+  List<BaseTrack?> get videoTracks => _platform.videoTracks;
 }

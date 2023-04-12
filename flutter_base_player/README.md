@@ -6,7 +6,7 @@ Android, iOS, MacOS, Windows, Linux
 
 ## Installation
 
-We use [video_player](https://pub.dev/packages/video_player) for Android and iOS, [video_player_macos](https://pub.dev/packages/video_player_macos) for MacOS, [dart_vlc](https://pub.dev/packages/dart_vlc) for Windows and Linux.
+We use [video_player](https://pub.dev/packages/video_player) for Android, [media_kit](https://pub.dev/packages/media_kit) for iOS, MacOS, Windows and Linux.
 
 They have some additional configuration steps, please refer to the instructions provided by these packages
 
@@ -17,7 +17,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_base_player/flutter_base_player.dart';
 
 void main() {
-  FlutterBasePlayer.initialize();
+  // FlutterBasePlayer.initialize(); do not need any more
   runApp(const MyApp());
 }
 
@@ -225,7 +225,6 @@ class _MyHomePageState extends State<MyHomePage> {
           ChangeNotifierBuilder(
             notifier: player.eventStream,
             builder: (context) {
-              print('player.eventStream');
               return Wrap(
                 spacing: 30,
                 runSpacing: 10,

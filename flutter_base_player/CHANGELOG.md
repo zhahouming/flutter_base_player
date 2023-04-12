@@ -1,3 +1,9 @@
+## 0.1.1
+
+- Use media_kit for iOS, MacOS, Windows, Linux
+- Support multi instance
+- handle error
+
 ## 0.1.0
 Platorm Support
 

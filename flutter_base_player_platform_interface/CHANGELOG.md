@@ -1,3 +1,12 @@
+## 0.1.6
+
+- support multi instance
+
+## 0.1.5
+
+- support background color
+- add precompleteStream
+
 ## 0.1.4
 
 add new property

@@ -5,7 +5,7 @@ import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
 /// Universal video player for flutter
 /// Support platform: Android, iOS, MacOS, Windows, Linux and Web
-/// We use video_player for Android and iOS, video_player_macos for MacOS, dart_vlc for Windows and Linux
+/// We use video_player for Android and media_kit for iOS, MacOS, Windows and Linux
 /// Support source: assets, file, network
 /// Methods: play, pause, seek, setVolume, setPlaybackSpeed, setLooping
 /// Value: aspectRatio, buffered, duration, hasError, errorMessage, playbackSpeed, position, size, volume
@@ -17,14 +17,7 @@ abstract class FlutterBasePlayerPlatform extends PlatformInterface {
 
   static final Object _token = Object();
 
-  static late FlutterBasePlayerPlatform _instance;
-
-  static FlutterBasePlayerPlatform get instance => _instance;
-
-  static set instance(FlutterBasePlayerPlatform instance) {
-    PlatformInterface.verify(instance, _token);
-    _instance = instance;
-  }
+  static late FlutterBasePlayerPlatform Function() instance;
 
   Future<void> assets(String path);
   Future<void> file(File file);
@@ -69,11 +62,13 @@ abstract class FlutterBasePlayerPlatform extends PlatformInterface {
   List<BaseTrack?> get subtitleTracks;
 
   ChangeNotifier get eventStream;
+  ChangeNotifier get precompleteStream;
 
   // fit decide the video cut style
   // builder is constrained by parent widget
   // ratio for container height calc, it may conflict with box`s maxHeight
-  Widget builder(BuildContext context, [BoxFit? fit, double? ratio]);
+  Widget builder(BuildContext context,
+      [BoxFit? fit, double? ratio, Color? color]);
 }
 
 class BaseTrack {

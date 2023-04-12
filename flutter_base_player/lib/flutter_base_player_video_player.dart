@@ -1,27 +1,41 @@
 import 'dart:async';
 import 'dart:io';
-// import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_base_player_platform_interface/flutter_base_player_platform_interface.dart';
 import 'package:video_player/video_player.dart';
 import 'change_notifier_builder.dart';
 
 class FlutterBasePlayerVideoPlayer extends FlutterBasePlayerPlatform {
+  static void registerWith() {
+    FlutterBasePlayerPlatform.instance = () => FlutterBasePlayerVideoPlayer();
+  }
+
   initListeners() {
     // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
-    _controller.addListener(_eventStream.notifyListeners);
+    _controller?.addListener(_eventStream.notifyListeners);
+    _controller?.addListener(_handleState);
   }
 
-  disposeListeners() {
+  _handleState() {
+    if (isPlaying || isInitialized || isBuffering || hasError) {
+      _isLoading = false;
+    }
+    if (!isPlaying && duration.inSeconds - position.inSeconds == 0) {
+      if (!_completed) {
+        _completed = true;
+      }
+    } else {
+      _completed = false;
+    }
+    if (isPlaying && duration.inSeconds - position.inSeconds == 5) {
+      // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
+      precompleteStream.notifyListeners();
+    }
     // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
-    _controller.removeListener(_eventStream.notifyListeners);
+    _eventStream.notifyListeners();
   }
 
-  static void registerWith() {
-    FlutterBasePlayerPlatform.instance = FlutterBasePlayerVideoPlayer();
-  }
-
-  late VideoPlayerController _controller;
+  VideoPlayerController? _controller;
 
   // Returns [size.width] / [size.height].
   // Will return 1.0 if:
@@ -29,44 +43,53 @@ class FlutterBasePlayerVideoPlayer extends FlutterBasePlayerPlatform {
   // [size.width], or [size.height] is equal to 0.0
   // aspect ratio would be less than or equal to 0.0
   @override
-  double get aspectRatio => _controller.value.aspectRatio;
+  double get aspectRatio => _controller?.value.aspectRatio ?? 16 / 9;
 
   @override
-  // TODO: implement buffered
-  double get buffered => throw UnimplementedError();
+  double get buffered => _controller != null
+      ? _controller!.value.buffered.last.end.inSeconds / duration.inSeconds
+      : 0;
+
+  bool _completed = false;
+  @override
+  bool get completed => _completed;
 
   @override
-  Duration get duration => _controller.value.duration;
+  Duration get duration =>
+      _controller?.value.duration ?? const Duration(seconds: 0);
 
   @override
-  String? get errorMessage => _controller.value.errorDescription;
+  String? get errorMessage => _controller?.value.errorDescription;
 
   @override
-  bool get hasError => _controller.value.hasError;
+  bool get hasError => _controller?.value.hasError ?? false;
+
+  bool _isLoading = false;
 
   @override
-  bool get isBuffering => _controller.value.isBuffering;
+  bool get isBuffering => _controller?.value.isBuffering ?? false;
 
   @override
-  bool get isInitialized => _controller.value.isInitialized;
+  bool get isInitialized => _controller?.value.isInitialized ?? false;
 
   @override
-  bool get isLooping => _controller.value.isLooping;
+  bool get isLooping => _controller?.value.isLooping ?? false;
 
   @override
-  bool get isPlaying => _controller.value.isPlaying;
+  bool get isPlaying => _controller?.value.isPlaying ?? false;
 
   @override
-  double get playbackSpeed => _controller.value.playbackSpeed;
+  double get playbackSpeed => _controller?.value.playbackSpeed ?? 1;
 
   @override
-  Duration get position => _controller.value.position;
+  Duration get position =>
+      _controller?.value.position ?? const Duration(seconds: 0);
 
   @override
-  Size get size => _controller.value.size;
+  Size get size => _controller?.value.size ?? const Size(480, 360);
 
   @override
-  double get volume => _controller.value.volume;
+  double get volume => _controller?.value.volume ?? 1;
 
   @override
   void initialize() {
@@ -75,59 +98,91 @@ class FlutterBasePlayerVideoPlayer extends FlutterBasePlayerPlatform {
 
   @override
   void dispose() {
+    precompleteStream.dispose();
     _eventStream.dispose();
-    _controller.dispose();
+    _controller?.dispose();
   }
 
   @override
   Future<void> assets(String path) {
-    _controller = VideoPlayerController.asset(path);
+    _controller?.dispose();
+    _completed = false;
+    _isLoading = true;
+    path = path.replaceFirst('asset://', '');
+    _controller = VideoPlayerController.asset(
+      path,
+      videoPlayerOptions: VideoPlayerOptions(mixWithOthers: true),
+    );
     initListeners();
-    return _controller.initialize();
+    // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
+    eventStream.notifyListeners();
+    return _controller!.initialize();
   }
 
   @override
   Future<void> file(File file) {
-    _controller = VideoPlayerController.file(file);
+    _controller?.dispose();
+    _completed = false;
+    _isLoading = true;
+    _controller = VideoPlayerController.file(
+      file,
+      videoPlayerOptions: VideoPlayerOptions(mixWithOthers: true),
+    );
     initListeners();
-    return _controller.initialize();
+    // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
+    eventStream.notifyListeners();
+    return _controller!.initialize();
   }
 
   @override
-  Future<void> network(String url) {
-    _controller = VideoPlayerController.network(url);
+  Future<void> network(String url, [String? headers]) {
+    _controller?.dispose();
+    _completed = false;
+    _isLoading = true;
+    Map<String, String> httpHeaders = {};
+    headers?.split(';').forEach((String item) {
+      List<String> tmp = item.split(':');
+      httpHeaders[tmp[0].trim()] = tmp[1].trim();
+    });
+    _controller = VideoPlayerController.network(
+      url,
+      httpHeaders: httpHeaders,
+      videoPlayerOptions: VideoPlayerOptions(mixWithOthers: true),
+    );
     initListeners();
-    return _controller.initialize();
+    // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
+    eventStream.notifyListeners();
+    return _controller!.initialize();
   }
 
   @override
   void pause() {
-    _controller.pause();
+    _controller?.pause();
   }
 
   @override
   void play() {
-    _controller.play();
+    _controller?.play();
   }
 
   @override
   void seek(Duration position) {
-    _controller.seekTo(position);
+    _controller?.seekTo(position);
   }
 
   @override
   void setLooping(bool looping) {
-    _controller.setLooping(looping);
+    _controller?.setLooping(looping);
   }
 
   @override
   void setPlaybackSpeed(double speed) {
-    _controller.setPlaybackSpeed(speed);
+    _controller?.setPlaybackSpeed(speed);
   }
 
   @override
   void setVolume(double volume) {
-    _controller.setVolume(volume);
+    _controller?.setVolume(volume);
   }
 
   final ChangeNotifier _eventStream = ChangeNotifier();
@@ -135,8 +190,13 @@ class FlutterBasePlayerVideoPlayer extends FlutterBasePlayerPlatform {
   @override
   ChangeNotifier get eventStream => _eventStream;
 
+  final ChangeNotifier _precompleteStream = ChangeNotifier();
   @override
-  Widget builder(BuildContext context, [BoxFit? fit, double? ratio]) {
+  ChangeNotifier get precompleteStream => _precompleteStream;
+
+  @override
+  Widget builder(BuildContext context,
+      [BoxFit? fit, double? ratio, Color? color]) {
     return ChangeNotifierBuilder(
       notifier: _eventStream,
       builder: (context) {
@@ -148,15 +208,112 @@ class FlutterBasePlayerVideoPlayer extends FlutterBasePlayerPlatform {
                 height:
                     ratioHeight > box.maxHeight ? box.maxHeight : ratioHeight,
                 width: box.maxWidth,
-                decoration:
-                    const BoxDecoration(color: Color.fromARGB(0, 0, 0, 0)),
-                child: FittedBox(
-                  fit: fit ?? BoxFit.contain,
-                  child: SizedBox(
-                    height: size.height,
-                    width: size.width,
-                    child: VideoPlayer(_controller),
-                  ),
+                decoration: BoxDecoration(color: color ?? Colors.black),
+                child: Stack(
+                  fit: StackFit.passthrough,
+                  children: [
+                    if (!isInitialized &&
+                        !completed &&
+                        !hasError &&
+                        !_isLoading)
+                      SizedBox(
+                        height: box.maxWidth / (ratio ?? aspectRatio),
+                        width: box.maxWidth,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: const [
+                            Text(
+                              '未选择视频',
+                              style: TextStyle(
+                                  color: Color.fromARGB(255, 67, 173, 255)),
+                            ),
+                          ],
+                        ),
+                      ),
+                    if (isInitialized)
+                      FittedBox(
+                        fit: fit ?? BoxFit.contain,
+                        child: SizedBox(
+                          height: size.height,
+                          width: size.width,
+                          child: VideoPlayer(_controller!),
+                        ),
+                      ),
+                    if (isBuffering)
+                      Container(
+                        height: box.maxWidth / (ratio ?? aspectRatio),
+                        width: box.maxWidth,
+                        color: Colors.black54,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: const [
+                            CircularProgressIndicator(strokeWidth: 1),
+                            SizedBox(height: 20),
+                            Text(
+                              '缓冲中...',
+                              style: TextStyle(
+                                  color: Color.fromARGB(255, 10, 137, 234)),
+                            ),
+                          ],
+                        ),
+                      ),
+                    if (_isLoading)
+                      Container(
+                        height: box.maxWidth / (ratio ?? aspectRatio),
+                        width: box.maxWidth,
+                        color: Colors.black54,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: const [
+                            CircularProgressIndicator(strokeWidth: 1),
+                            SizedBox(height: 20),
+                            Text(
+                              '加载中...',
+                              style: TextStyle(
+                                  color: Color.fromARGB(255, 10, 137, 234)),
+                            ),
+                          ],
+                        ),
+                      ),
+                    if (hasError)
+                      Container(
+                        height: box.maxWidth / (ratio ?? aspectRatio),
+                        width: box.maxWidth,
+                        color: Colors.black54,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Text(
+                              '播放错误',
+                              style: TextStyle(
+                                  color: Color.fromARGB(255, 67, 173, 255)),
+                            ),
+                            const SizedBox(height: 20),
+                            Text(
+                              errorMessage ?? '',
+                              style: const TextStyle(
+                                  color: Color.fromARGB(255, 67, 173, 255)),
+                            ),
+                          ],
+                        ),
+                      ),
+                    if (completed && !hasError)
+                      Container(
+                        height: box.maxWidth / (ratio ?? aspectRatio),
+                        width: box.maxWidth,
+                        color: Colors.black54,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: const [
+                            Text(
+                              '播放结束',
+                              style: TextStyle(
+                                  color: Color.fromARGB(255, 67, 173, 255)),
+                            ),
+                          ],
+                        ),
+                      ),
+                  ],
                 ),
               ),
             );
@@ -165,4 +322,37 @@ class FlutterBasePlayerVideoPlayer extends FlutterBasePlayerPlatform {
       },
     );
   }
+
+  @override
+  get audioTrack => null;
+
+  @override
+  get audioTracks => [];
+
+  @override
+  void setAudioTrack(track) {
+    // do nothing;
+  }
+
+  @override
+  void setSubtitleTrack(track) {
+    // do nothing;
+  }
+
+  @override
+  void setVideoTrack(track) {
+    // do nothing;
+  }
+
+  @override
+  get subtitleTrack => null;
+
+  @override
+  get subtitleTracks => [];
+
+  @override
+  get videoTrack => null;
+
+  @override
+  get videoTracks => [];
 }

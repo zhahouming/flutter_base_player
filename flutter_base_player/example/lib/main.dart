@@ -1,5 +1,8 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_base_player/flutter_base_player.dart';
+import 'package:file_picker/file_picker.dart';
 
 void main() {
   FlutterBasePlayer.initialize();
@@ -32,15 +35,34 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   FlutterBasePlayer player = FlutterBasePlayer();
+  FlutterBasePlayer player2 = FlutterBasePlayer();
 
   BoxFit fit = BoxFit.contain;
   double ratio = 4 / 3;
+  String inputUrl = '';
+  String inputHeaders = '';
+  TextEditingController inputController = TextEditingController();
+  TextEditingController inputController2 = TextEditingController();
+
+  List<String> urlist = [
+    'http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4',
+    'http://vjs.zencdn.net/v/oceans.mp4',
+    'https://www.w3school.com.cn/i/movie.mp4',
+    'https://vfx.mtime.cn/Video/2019/02/04/mp4/190204084208765161.mp4',
+    'https://media.w3.org/2010/05/sintel/trailer.mp4',
+    'rtsp://wowzaec2demo.streamlock.net/vod/mp4:BigBuckBunny_115k.mov',
+    'http://devimages.apple.com/iphone/samples/bipbop/bipbopall.m3u8',
+    'http://devimages.apple.com/iphone/samples/bipbop/gear3/prog_index.m3u8',
+    'http://220.161.87.62:8800/hls/0/index.m3u8',
+    'rtmp://mobliestream.c3tv.com:554/live/goodtv.sdp',
+    'rtmp://media3.scctv.net/live/scctv_800',
+  ];
 
   @override
   void initState() {
-    player.loadNetwork('https://media.w3.org/2010/05/sintel/trailer.mp4');
-    // player.loadNetwork('http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4');
-    player.play();
+    player2.loadNetwork('http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4');
+    player2.play();
+    player2.setLooping(true);
     super.initState();
   }
 
@@ -52,17 +74,94 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: ListView(
         children: [
-          const Center(
-            child: Text(
-              'Video Test',
-              style: TextStyle(fontSize: 24, height: 2),
-            ),
-          ),
-          SizedBox(
+          Container(
             height: 300,
-            width: 300,
-            child: player.builder(context, fit: fit,),
-            // child: player.builder(context, fit: fit, ratio: ratio),
+            width: 200,
+            child: player2.builder(context, fit: fit),
+          ),
+          player.builder(context, fit: fit, ratio: 16 / 9, color: Colors.white),
+          ChangeNotifierBuilder(
+              notifier: player.eventStream,
+              builder: (context) {
+                return Wrap(
+                  spacing: 30,
+                  runSpacing: 10,
+                  children: [
+                    Text('aspectRatio: ${player.aspectRatio}'),
+                    Text('isPlaying: ${player.isPlaying}'),
+                    Text('playbackSpeed: ${player.playbackSpeed}'),
+                    Text('size: ${player.size}'),
+                    Text('volume: ${player.volume}'),
+                    Text('errorMessage: ${player.errorMessage}'),
+                    Text('hasError: ${player.hasError}'),
+                    Text('isBuffering: ${player.isBuffering}'),
+                    Text('isInitialized: ${player.isInitialized}'),
+                    Text('isLooping: ${player.isLooping}'),
+                    Text('duration: ${player.duration}'),
+                    Text('position: ${player.position}'),
+                  ],
+                );
+              }),
+          const SizedBox(height: 30),
+          Wrap(spacing: 20, runSpacing: 10, children: [
+            TextButton(
+                onPressed: () async {
+                  try {
+                    FilePickerResult? result =
+                        await FilePicker.platform.pickFiles();
+                    if (result != null) {
+                      File file = File(result.files.single.path!);
+                      await player.loadFile(file);
+                      player.play();
+                    } else {
+                      // User canceled the picker
+                    }
+                  } catch (err) {
+                    print('error' + err.toString());
+                  }
+                },
+                child: const Text('load file')),
+            TextButton(
+                onPressed: () async {
+                  await player.loadNetwork(
+                      'https://media.w3.org/2010/05/sintel/trailer.mp4');
+                  player.play();
+                },
+                child: const Text('load network')),
+            TextButton(
+                onPressed: () async {
+                  await player.loadAssets('asset://assets/video/test.mp4');
+                  player.play();
+                },
+                child: const Text('load assets')),
+          ]),
+          const SizedBox(height: 30),
+          Wrap(
+            spacing: 20,
+            children: [
+              TextField(
+                decoration: const InputDecoration(
+                  hintText: 'audio/video url',
+                ),
+                controller: inputController,
+              ),
+              TextField(
+                decoration: const InputDecoration(
+                  hintText: 'audio/video headers',
+                ),
+                controller: inputController2,
+              ),
+              TextButton(
+                onPressed: () async {
+                  await player.loadNetwork(
+                    inputController.value.text.trim(),
+                    inputController2.value.text.trim(),
+                  );
+                  player.play();
+                },
+                child: const Text('start load network'),
+              ),
+            ],
           ),
           const SizedBox(height: 30),
           Wrap(
@@ -97,6 +196,20 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               TextButton(
                 onPressed: () {
+                  player
+                      .seek(Duration(seconds: player.position.inSeconds + 10));
+                },
+                child: const Text('seek +10s'),
+              ),
+              TextButton(
+                onPressed: () {
+                  player
+                      .seek(Duration(seconds: player.position.inSeconds + 60));
+                },
+                child: const Text('seek +60s'),
+              ),
+              TextButton(
+                onPressed: () {
                   player.seek(const Duration(seconds: 10));
                 },
                 child: const Text('seek to 10s'),
@@ -106,18 +219,6 @@ class _MyHomePageState extends State<MyHomePage> {
                   player.seek(const Duration(seconds: 20));
                 },
                 child: const Text('seek to 20s'),
-              ),
-              TextButton(
-                onPressed: () {
-                  player.seek(const Duration(seconds: 30));
-                },
-                child: const Text('seek to 30s'),
-              ),
-              TextButton(
-                onPressed: () {
-                  player.seek(const Duration(seconds: 40));
-                },
-                child: const Text('seek to 40s'),
               ),
               TextButton(
                 onPressed: () {
@@ -182,59 +283,89 @@ class _MyHomePageState extends State<MyHomePage> {
             ],
           ),
           const SizedBox(height: 30),
+          const Text('video tracks:'),
+          ChangeNotifierBuilder(
+              notifier: player.eventStream,
+              builder: (context) {
+                return Wrap(
+                    children: player.videoTracks
+                        .map((BaseTrack? track) => TextButton(
+                            onPressed: () {
+                              player.setVideoTrack(track!);
+                            },
+                            child: Text(
+                                '${track?.title} - ${track?.language ?? ''}')))
+                        .toList());
+              }),
+          const SizedBox(height: 30),
+          const Text('audio tracks:'),
+          ChangeNotifierBuilder(
+              notifier: player.eventStream,
+              builder: (context) {
+                return Wrap(
+                    children: player.audioTracks
+                        .map((BaseTrack? track) => TextButton(
+                            onPressed: () {
+                              player.setAudioTrack(track!);
+                            },
+                            child: Text(
+                                '${track?.title} - ${track?.language ?? ''}')))
+                        .toList());
+              }),
+          const SizedBox(height: 30),
+          const Text('subtitle tracks:'),
+          ChangeNotifierBuilder(
+              notifier: player.eventStream,
+              builder: (context) {
+                return Wrap(
+                    children: player.subtitleTracks
+                        .map((BaseTrack? track) => TextButton(
+                            onPressed: () {
+                              player.setSubtitleTrack(track!);
+                            },
+                            child: Text(
+                                '${track?.title} - ${track?.language ?? ''}')))
+                        .toList());
+              }),
+          const SizedBox(height: 30),
           const Text('initial state:'),
           Wrap(
-              spacing: 30,
-              runSpacing: 10,
-              alignment: WrapAlignment.start,
-              children: [
-                Text('position: ${player.position}'),
-                Text('duration: ${player.duration}'),
-                Text('aspectRatio: ${player.aspectRatio}'),
-                Text('isPlaying: ${player.isPlaying}'),
-                
-                Text('playbackSpeed: ${player.playbackSpeed}'),
-                Text('size: ${player.size}'),
-                Text('volume: ${player.volume}'),
-
-                Text('errorMessage: ${player.errorMessage}'),
-                Text('hasError: ${player.hasError}'),
-
-                Text('isBuffering: ${player.isBuffering}'),
-                Text('isInitialized: ${player.isInitialized}'),
-                Text('isLooping: ${player.isLooping}'),
-              ],
+            spacing: 30,
+            runSpacing: 10,
+            alignment: WrapAlignment.start,
+            children: [
+              Text('position: ${player.position}'),
+              Text('duration: ${player.duration}'),
+              Text('aspectRatio: ${player.aspectRatio}'),
+              Text('isPlaying: ${player.isPlaying}'),
+              Text('playbackSpeed: ${player.playbackSpeed}'),
+              Text('size: ${player.size}'),
+              Text('volume: ${player.volume}'),
+              Text('errorMessage: ${player.errorMessage}'),
+              Text('hasError: ${player.hasError}'),
+              Text('isBuffering: ${player.isBuffering}'),
+              Text('isInitialized: ${player.isInitialized}'),
+              Text('isLooping: ${player.isLooping}'),
+            ],
           ),
           const SizedBox(height: 30),
-          const Text('real-time state:'),
-          ChangeNotifierBuilder(
-            notifier: player.eventStream,
-            builder: (context) {
-              print('player.eventStream');
-              return Wrap(
-                spacing: 30,
-                runSpacing: 10,
-                children: [
-                  Text('position: ${player.position}'),
-                  Text('duration: ${player.duration}'),
-                  Text('aspectRatio: ${player.aspectRatio}'),
-                  Text('isPlaying: ${player.isPlaying}'),
-                  
-                  Text('playbackSpeed: ${player.playbackSpeed}'),
-                  Text('size: ${player.size}'),
-                  Text('volume: ${player.volume}'),
-
-                  Text('errorMessage: ${player.errorMessage}'),
-                  Text('hasError: ${player.hasError}'),
-
-                  Text('isBuffering: ${player.isBuffering}'),
-                  Text('isInitialized: ${player.isInitialized}'),
-                  Text('isLooping: ${player.isLooping}'),
-                ],
-              );
-            }
-          )
-          
+          const Text('test url list:'),
+          ...urlist
+              .map(
+                (String url) => Row(
+                  children: [
+                    Text(url),
+                    TextButton(
+                      onPressed: () {
+                        Clipboard.setData(ClipboardData(text: url));
+                      },
+                      child: const Text('copy'),
+                    ),
+                  ],
+                ),
+              )
+              .toList(),
+          const SizedBox(height: 30),
         ],
       ),
       floatingActionButton: FloatingActionButton(
