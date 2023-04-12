@@ -49,6 +49,7 @@ abstract class FlutterBasePlayerPlatform extends PlatformInterface {
   // aspect ratio would be less than or equal to 0.0
   double get aspectRatio;
   double get buffered;
+  bool get completed;
   Duration get duration;
   bool get hasError;
   String? get errorMessage;

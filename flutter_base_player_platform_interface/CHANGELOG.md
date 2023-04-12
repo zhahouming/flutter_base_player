@@ -1,3 +1,9 @@
+## 0.1.4
+
+add new property
+
+- bool get completed;
+
 ## 0.1.3
 
 update some types
