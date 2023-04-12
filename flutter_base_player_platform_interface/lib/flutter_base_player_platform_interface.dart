@@ -60,12 +60,12 @@ abstract class FlutterBasePlayerPlatform extends PlatformInterface {
   bool get isInitialized;
   bool get isLooping;
   bool get isPlaying;
-  BaseTrack get videoTrack;
-  List<BaseTrack> get videoTracks;
-  BaseTrack get audioTrack;
-  List<BaseTrack> get audioTracks;
-  BaseTrack get subtitleTrack;
-  List<BaseTrack> get subtitleTracks;
+  BaseTrack? get videoTrack;
+  List<BaseTrack?> get videoTracks;
+  BaseTrack? get audioTrack;
+  List<BaseTrack?> get audioTracks;
+  BaseTrack? get subtitleTrack;
+  List<BaseTrack?> get subtitleTracks;
 
   ChangeNotifier get eventStream;
 
