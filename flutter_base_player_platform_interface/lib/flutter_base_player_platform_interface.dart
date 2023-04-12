@@ -38,9 +38,9 @@ abstract class FlutterBasePlayerPlatform extends PlatformInterface {
   void setVolume(double volume);
   void setPlaybackSpeed(double speed);
   void setLooping(bool looping);
-  void setVideoTrack(dynamic track);
-  void setAudioTrack(dynamic track);
-  void setSubtitleTrack(dynamic track);
+  void setVideoTrack(BaseTrack track);
+  void setAudioTrack(BaseTrack track);
+  void setSubtitleTrack(BaseTrack track);
 
   // Returns [size.width] / [size.height].
   // Will return 1.0 if:
@@ -60,12 +60,12 @@ abstract class FlutterBasePlayerPlatform extends PlatformInterface {
   bool get isInitialized;
   bool get isLooping;
   bool get isPlaying;
-  dynamic get videoTrack;
-  dynamic get videoTracks;
-  dynamic get audioTrack;
-  dynamic get audioTracks;
-  dynamic get subtitleTrack;
-  dynamic get subtitleTracks;
+  BaseTrack get videoTrack;
+  List<BaseTrack> get videoTracks;
+  BaseTrack get audioTrack;
+  List<BaseTrack> get audioTracks;
+  BaseTrack get subtitleTrack;
+  List<BaseTrack> get subtitleTracks;
 
   ChangeNotifier get eventStream;
 
@@ -73,4 +73,16 @@ abstract class FlutterBasePlayerPlatform extends PlatformInterface {
   // builder is constrained by parent widget
   // ratio for container height calc, it may conflict with box`s maxHeight
   Widget builder(BuildContext context, [BoxFit? fit, double? ratio]);
+}
+
+class BaseTrack {
+  String? title;
+  String? language;
+  dynamic raw;
+
+  BaseTrack({
+    this.title,
+    this.language,
+    this.raw,
+  });
 }

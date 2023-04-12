@@ -1,3 +1,20 @@
+## 0.1.2
+
+add BaseTrack and update some types
+
+#### define property
+- BaseTrack get videoTrack;
+- List<BaseTrack> get videoTracks;
+- BaseTrack get audioTrack;
+- List<BaseTrack> get audioTracks;
+- BaseTrack get subtitleTrack;
+- List<BaseTrack> get subtitleTracks;
+
+#### define methods
+- void setVideoTrack(BaseTrack track);
+- void setAudioTrack(BaseTrack track);
+- void setSubtitleTrack(BaseTrack track);
+
 ## 0.1.1
 
 #### define property
