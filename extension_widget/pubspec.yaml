@@ -1,0 +1,20 @@
+name: extension_widget
+description: Extension widget .
+version: 0.0.1
+repository: https://github.com/zhahouming/flutter_base_player/extension_widget
+homepage: https://github.com/zhahouming/flutter_base_player/extension_widget
+
+environment:
+  sdk: '>=2.17.0 <4.0.0'
+  flutter: ">=1.17.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  styled_widget: ^0.4.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^2.0.0
+flutter:
