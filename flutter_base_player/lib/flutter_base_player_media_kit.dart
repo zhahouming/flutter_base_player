@@ -233,6 +233,7 @@ class FlutterBasePlayerMediaKitPlayer extends FlutterBasePlayerPlatform {
           return LayoutBuilder(
               builder: (BuildContext context, BoxConstraints box) {
             return Stack(
+              alignment: Alignment.center,
               children: [
                 Video(
                   fit: fit ?? BoxFit.contain,

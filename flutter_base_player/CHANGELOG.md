@@ -1,3 +1,8 @@
+## 0.1.3
+
+- fix alignment
+- add filename
+
 ## 0.1.2
 
 - fix dispose error

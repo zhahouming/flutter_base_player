@@ -211,6 +211,7 @@ class FlutterBasePlayerVideoPlayer extends FlutterBasePlayerPlatform {
                 decoration: BoxDecoration(color: color ?? Colors.black),
                 child: Stack(
                   fit: StackFit.passthrough,
+                  alignment: Alignment.center,
                   children: [
                     if (!isInitialized &&
                         !completed &&

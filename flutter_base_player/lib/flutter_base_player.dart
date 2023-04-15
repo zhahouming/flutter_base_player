@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:path/path.dart';
 import 'package:flutter_base_player_platform_interface/flutter_base_player_platform_interface.dart';
 
 export './change_notifier_builder.dart';
@@ -23,19 +24,23 @@ class FlutterBasePlayer {
   // }
 
   FlutterBasePlayerPlatform? player;
+  String filename = '';
 
   /// assets path example: assets://path/to/your/file.mp4
   Future<void> loadAssets(String path) {
+    filename = basename(path);
     return _platform.assets(path);
   }
 
   Future<void> loadFile(File file) {
+    filename = basename(file.path);
     return _platform.file(file);
   }
 
   /// url example: https://www.example.com/sample.mp4
   /// rtsp://www.example.com/live
   Future<void> loadNetwork(String url, [String? headers]) {
+    filename = basename(url);
     return _platform.network(url);
   }
 
