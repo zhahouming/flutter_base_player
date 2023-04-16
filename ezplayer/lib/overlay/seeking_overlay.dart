@@ -1,9 +1,9 @@
 part of '../ezplayer.dart';
 
-class _SeekingOverlay extends StatelessWidget {
+class SeekingOverlay extends StatelessWidget {
   final String newPositionTime;
   final String totalTime;
-  const _SeekingOverlay({
+  const SeekingOverlay({
     Key? key,
     required this.newPositionTime,
     required this.totalTime,
@@ -29,6 +29,6 @@ class _SeekingOverlay extends StatelessWidget {
           ),
         ),
       ],
-    ).div(SyyBoxStyle(backgroundColor: Colors.black26));
+    ).div(DivStyle(backgroundColor: Colors.black26));
   }
 }

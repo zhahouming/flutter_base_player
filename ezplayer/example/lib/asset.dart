@@ -36,7 +36,10 @@ class _AssetPageState extends State<AssetPage> {
       appBar: AppBar(
         title: const Text('EzPlayer'),
       ),
-      body: player.builder(context),
+      body: Container(
+        alignment: const Alignment(0, -0.4),
+        child: player.builder(context),
+      ),
     );
   }
 }

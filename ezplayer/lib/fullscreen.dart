@@ -9,19 +9,13 @@ class FullScreenVideoPlayer extends StatefulWidget {
   final EzPlayer player;
   final List<Widget> bottomLeftBtns;
   final List<Widget> bottomRightBtns;
-  final List<Widget> topBtns;
-  final Widget? leftBtn;
-  final Widget rightBtn;
+
   const FullScreenVideoPlayer(
     this.player, {
     Key? key,
-    List<Widget>? topBtns,
     List<Widget>? bottomLeftBtns,
     List<Widget>? bottomRightBtns,
-    this.leftBtn,
-    required this.rightBtn,
-  })  : topBtns = topBtns ?? const [],
-        bottomLeftBtns = bottomLeftBtns ?? const [],
+  })  : bottomLeftBtns = bottomLeftBtns ?? const [],
         bottomRightBtns = bottomRightBtns ?? const [],
         super(key: key);
 
@@ -64,15 +58,17 @@ class _FullScreenVideoPlayerState extends State<FullScreenVideoPlayer> {
 
   @override
   Widget build(BuildContext context) {
-    return widget.player.builder(
-      context,
-      // widget.syyVCtrl,
-      // isFullscreen: true,
-      // topBtns: widget.topBtns,
-      // bottomLeftBtns: widget.bottomLeftBtns,
-      // bottomRightBtns: widget.bottomRightBtns,
-      // leftBtn: widget.leftBtn,
-      // rightBtn: widget.rightBtn,
+    return Scaffold(
+      body: widget.player.builder(
+        context,
+        // widget.syyVCtrl,
+        isFullscreen: true,
+        // topBtns: widget.topBtns,
+        // bottomLeftBtns: widget.bottomLeftBtns,
+        // bottomRightBtns: widget.bottomRightBtns,
+        // leftBtn: widget.leftBtn,
+        // rightBtn: widget.rightBtn,
+      ),
     );
   }
 }

@@ -1,7 +1,7 @@
 part of '../ezplayer.dart';
 
 mixin _BaseMixin on State<PlayerOverlay> {
-  bool isPlaying = false;
+  bool get isPlaying => widget.controller.isPlaying;
   bool seeking = false;
   bool settingLight = false;
   bool settingVolume = false;
@@ -9,23 +9,8 @@ mixin _BaseMixin on State<PlayerOverlay> {
   double volumePercent = 0;
   Duration? currentPosition;
 
-  Duration playedTime = const Duration(seconds: 0);
-  int totalSeconds = 0;
-  int positionSeconds = 0;
-  double bufferedPercent = 0;
-
-  syncDurationState() {
-    setState(() {
-      isPlaying = widget.controller.isPlaying;
-      playedTime = widget.controller.position;
-      totalSeconds = widget.controller.duration.inSeconds;
-      positionSeconds = widget.controller.position.inSeconds;
-      try {
-        bufferedPercent = widget.controller.buffered;
-      } catch (err) {
-        // ignore: avoid_print
-        print('bufferedPercent error: $err');
-      }
-    });
-  }
+  Duration get playedTime => widget.controller.position;
+  int get totalSeconds => widget.controller.duration.inSeconds;
+  int get positionSeconds => widget.controller.position.inSeconds;
+  double get bufferedPercent => widget.controller.buffered;
 }

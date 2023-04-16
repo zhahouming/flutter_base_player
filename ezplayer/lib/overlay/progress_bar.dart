@@ -53,6 +53,7 @@ class _SyyVideoProgressBarState extends State<SyyVideoProgressBar> {
   double positionPercentDraging = 0;
   bool draging = false;
   double pp = 0;
+  Color overlayColor = Colors.transparent;
 
   @override
   void initState() {
@@ -102,7 +103,7 @@ class _SyyVideoProgressBarState extends State<SyyVideoProgressBar> {
         // 播放进度
         SliderTheme(
           data: SliderThemeData(
-            overlayColor: Colors.blue.withOpacity(0.4),
+            overlayColor: overlayColor,
             activeTrackColor: Colors.lightBlue,
             inactiveTrackColor: Colors.transparent,
             thumbColor: Colors.white70,
@@ -123,12 +124,14 @@ class _SyyVideoProgressBarState extends State<SyyVideoProgressBar> {
             onChangeStart: (v) {
               setState(() {
                 draging = true;
+                overlayColor = Colors.blue.withOpacity(0.4);
               });
             },
             onChangeEnd: (v) {
               widget.controller.setTrack(v);
               setState(() {
                 draging = false;
+                overlayColor = Colors.transparent;
               });
             },
             divisions: 10000,

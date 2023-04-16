@@ -36,7 +36,7 @@ mixin _OverlayTimerMixin on _BaseMixin {
     cancelTimer();
     timer = Timer(const Duration(seconds: 3), () async {
       if (!hidebar) {
-        hideBar();
+        if (mounted) hideBar();
       }
     });
   }
@@ -50,7 +50,7 @@ mixin _OverlayTimerMixin on _BaseMixin {
   initTimer() {
     timer = Timer(const Duration(seconds: 5), () async {
       if (!hidebar) {
-        hideBar();
+        if (mounted) hideBar();
       }
     });
   }

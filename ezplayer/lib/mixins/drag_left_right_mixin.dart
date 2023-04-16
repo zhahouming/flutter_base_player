@@ -51,7 +51,7 @@ mixin _DragLeftRightAreaMixin on _BaseMixin {
       dragRight = true;
       dragRightStart = detail.globalPosition.dy;
       try {
-        rawVolume = await VolumeController().getVolume();
+        rawVolume = await FlutterVolumeController.getVolume() ?? 0;
       } catch (err) {
         // ignore: avoid_print
         print('VolumeController getVolume error: $err');
@@ -75,7 +75,7 @@ mixin _DragLeftRightAreaMixin on _BaseMixin {
       newVolume = newVolume + rawVolume;
       newVolume = newVolume >= 0 ? newVolume : 0;
       newVolume = newVolume <= 1 ? newVolume : 1;
-      VolumeController().setVolume(newVolume, showSystemUI: false);
+      FlutterVolumeController.setVolume(newVolume);
       dragRightUpdate();
     }
   }

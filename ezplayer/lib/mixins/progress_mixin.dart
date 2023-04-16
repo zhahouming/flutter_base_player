@@ -44,10 +44,10 @@ mixin _ProgressMixin on _BaseMixin {
         newPositionTime = formatDuration(Duration(seconds: seconds));
       });
     });
-  }
 
-  syncPercent() {
-    pCtrl.updateBuffered(bufferedPercent);
-    pCtrl.updatePosition(positionPercent);
+    widget.controller.eventStream.addListener(() {
+      pCtrl.updateBuffered(bufferedPercent);
+      pCtrl.updatePosition(positionPercent);
+    });
   }
 }

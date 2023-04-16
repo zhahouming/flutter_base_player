@@ -16,11 +16,6 @@ class FloatToolBarController extends ChangeNotifier {
   })  : top = initialHide ? -topHeight : 0,
         bottom = initialHide ? -bottomHeight : 0;
 
-  @override
-  void dispose() {
-    super.dispose();
-  }
-
   hidebar() {
     top = -topHeight;
     bottom = -bottomHeight;
@@ -36,7 +31,6 @@ class FloatToolBarController extends ChangeNotifier {
   }
 
   toggleBar() {
-    debug(['toggleBar', initialHide]);
     if (initialHide) {
       openbar();
     } else {
@@ -46,10 +40,10 @@ class FloatToolBarController extends ChangeNotifier {
 }
 
 class FloatToolBar extends StatefulWidget {
-  Widget child;
-  Widget topBar;
-  Widget bottomBar;
-  FloatToolBarController controller;
+  final Widget child;
+  final Widget topBar;
+  final Widget bottomBar;
+  final FloatToolBarController controller;
 
   FloatToolBar({
     Key? key,
@@ -103,15 +97,11 @@ class _FloatToolBarState extends State<FloatToolBar> {
     double bottomRealHeight = bottomHeight + bottpmUnsafeHeight;
     double topPosition = top == 0 ? top : top - topUnsafeHeight;
     double bottomPosition = bottom == 0 ? bottom : bottom - bottpmUnsafeHeight;
-    debug([
-      '____________________ ddddddddddddddddddd',
-      bottomPosition,
-      topPosition
-    ]);
+
     return Stack(
       children: [
         widget.child
-            .div(SyyBoxStyle(backgroundColor: Colors.green, paddingAll: 20)),
+            .div(DivStyle(backgroundColor: Colors.green, paddingAll: 20)),
         AnimatedPositioned(
           curve: Curves.decelerate,
           duration: const Duration(milliseconds: 300),
@@ -120,7 +110,7 @@ class _FloatToolBarState extends State<FloatToolBar> {
           top: topPosition,
           height: topRealHeight,
           child: widget.topBar,
-        ).div(SyyBoxStyle(backgroundColor: Colors.red)),
+        ).div(DivStyle(backgroundColor: Colors.red)),
         AnimatedPositioned(
           curve: Curves.decelerate,
           duration: const Duration(milliseconds: 300),
@@ -129,7 +119,7 @@ class _FloatToolBarState extends State<FloatToolBar> {
           bottom: bottomPosition,
           height: bottomRealHeight,
           child: widget.bottomBar,
-        ).div(SyyBoxStyle(backgroundColor: Colors.blue)),
+        ).div(DivStyle(backgroundColor: Colors.blue)),
       ],
     );
   }

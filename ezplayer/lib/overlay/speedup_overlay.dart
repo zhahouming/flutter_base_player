@@ -1,8 +1,8 @@
 part of '../ezplayer.dart';
 
-class _SpeedUpOverlay extends StatelessWidget {
+class SpeedUpOverlay extends StatelessWidget {
   final double speed;
-  const _SpeedUpOverlay({
+  const SpeedUpOverlay({
     Key? key,
     required this.speed,
   }) : super(key: key);
@@ -20,7 +20,7 @@ class _SpeedUpOverlay extends StatelessWidget {
             color: Colors.white70,
             fontSize: 14,
           ),
-        ).div(SyyBoxStyle(
+        ).div(DivStyle(
           alignment: Alignment.center,
           height: 40,
           backgroundColor: speed == 2 ? activeColor : defaultColor,
@@ -31,7 +31,7 @@ class _SpeedUpOverlay extends StatelessWidget {
             color: Colors.white70,
             fontSize: 14,
           ),
-        ).div(SyyBoxStyle(
+        ).div(DivStyle(
           alignment: Alignment.center,
           height: 40,
           backgroundColor: speed == 3 ? activeColor : defaultColor,
@@ -42,7 +42,7 @@ class _SpeedUpOverlay extends StatelessWidget {
             color: Colors.white70,
             fontSize: 14,
           ),
-        ).div(SyyBoxStyle(
+        ).div(DivStyle(
           alignment: Alignment.center,
           height: 40,
           backgroundColor: speed == 4 ? activeColor : defaultColor,
@@ -53,7 +53,7 @@ class _SpeedUpOverlay extends StatelessWidget {
             color: Colors.white70,
             fontSize: 14,
           ),
-        ).div(SyyBoxStyle(
+        ).div(DivStyle(
           alignment: Alignment.center,
           height: 40,
           backgroundColor: speed == 5 ? activeColor : defaultColor,
@@ -61,10 +61,10 @@ class _SpeedUpOverlay extends StatelessWidget {
       ],
     )
         .clipRRect(all: 20)
-        .div(SyyBoxStyle(
+        .div(DivStyle(
           width: 100,
         ))
-        .div(SyyBoxStyle(
+        .div(DivStyle(
           alignment: Alignment.center,
         ));
   }

@@ -17,16 +17,52 @@ class UrlPage extends StatefulWidget {
 
 class _UrlPageState extends State<UrlPage> {
   EzPlayer player = EzPlayer();
-  // FlutterBasePlayer player = FlutterBasePlayer();
 
   @override
   void initState() {
+    player.attachMenu(OverlaySelectItem(
+      title: '测试菜单',
+      subtitle: 'desc',
+      onPressed: () {},
+    ));
+    player.attachButton(
+      EzplayerTextBtn(
+        text: 'left',
+        onPressed: () {
+          player.showOverlay(
+            alignment: Alignment.centerRight,
+            builder: (context) => OverlaySelect(
+              title: '内嵌音轨选择',
+              width: 280,
+              list: player.controller.audioTracks
+                  .map((item) => OverlaySelectItem(
+                        title: '${item?.title} ${item?.language ?? ""}',
+                        subtitle: '内嵌音轨',
+                        selected:
+                            player.controller.audioTrack?.title == item?.title,
+                        onPressed: () {
+                          player.controller.setAudioTrack(item!);
+                          // ezplayer.hideOverlay();
+                        },
+                      ))
+                  .toList(),
+            ),
+          );
+        },
+      ),
+      ButtonPosition.left,
+    );
+    player.attachButton(
+      EzplayerTextBtn(
+        text: 'right',
+        onPressed: () {},
+      ),
+      ButtonPosition.right,
+    );
     Future.microtask(() async {
       await player.controller.loadNetwork(widget.url);
       player.controller.play();
     });
-    // player.loadNetwork(widget.url);
-    // player.play();
     super.initState();
   }
 
