@@ -55,6 +55,9 @@ class FlutterBasePlayerMediaKitPlayer extends FlutterBasePlayerPlatform {
   }
 
   _handlePosition(event) {
+    if (isPlaying || isInitialized || isBuffering || hasError) {
+      _isLoading = false;
+    }
     if (isPlaying && duration.inSeconds - position.inSeconds == 5) {
       // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
       precompleteStream.notifyListeners();
@@ -100,6 +103,8 @@ class FlutterBasePlayerMediaKitPlayer extends FlutterBasePlayerPlatform {
 
   @override
   bool get hasError => _hasError;
+
+  bool _isLoading = false;
 
   @override
   bool get isBuffering => _player.state.buffering;
@@ -147,7 +152,8 @@ class FlutterBasePlayerMediaKitPlayer extends FlutterBasePlayerPlatform {
   @override
   Future<void> assets(String path) async {
     await initPlayer();
-    _player.open(Media(path));
+    _isLoading = true;
+    await _player.open(Media(path));
     _isInitialized = true;
     return Future.value();
   }
@@ -155,15 +161,17 @@ class FlutterBasePlayerMediaKitPlayer extends FlutterBasePlayerPlatform {
   @override
   Future<void> file(File file) async {
     await initPlayer();
-    _player.open(Media(file.path));
+    _isLoading = true;
+    await _player.open(Media(file.path));
     _isInitialized = true;
     return Future.value();
   }
 
   @override
   Future<void> network(String url, [String? headers]) async {
+    _isLoading = true;
     await initPlayer(headers);
-    _player.open(Media(url));
+    await _player.open(Media(url));
     _isInitialized = true;
     return Future.value();
   }
@@ -254,6 +262,24 @@ class FlutterBasePlayerMediaKitPlayer extends FlutterBasePlayerPlatform {
                         SizedBox(height: 20),
                         Text(
                           '缓冲中...',
+                          style: TextStyle(
+                              color: Color.fromARGB(255, 10, 137, 234)),
+                        ),
+                      ],
+                    ),
+                  ),
+                if (_isLoading)
+                  Container(
+                    height: box.maxWidth / (ratio ?? aspectRatio),
+                    width: box.maxWidth,
+                    color: Colors.black54,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: const [
+                        CircularProgressIndicator(strokeWidth: 1),
+                        SizedBox(height: 20),
+                        Text(
+                          '加载中...',
                           style: TextStyle(
                               color: Color.fromARGB(255, 10, 137, 234)),
                         ),

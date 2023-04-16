@@ -1,3 +1,7 @@
+## 0.1.6
+
+- fix loading support 
+
 ## 0.1.5
 
 - fix buffered 
