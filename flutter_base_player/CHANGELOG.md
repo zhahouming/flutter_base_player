@@ -1,3 +1,11 @@
+## 0.1.5
+
+- fix buffered 
+
+## 0.1.4
+
+- add track id
+
 ## 0.1.3
 
 - fix alignment

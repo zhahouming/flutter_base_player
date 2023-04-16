@@ -88,9 +88,9 @@ class FlutterBasePlayerMediaKitPlayer extends FlutterBasePlayerPlatform {
   bool get completed => _player.state.completed;
 
   @override
-  double get buffered =>
-      _player.state.position.inMilliseconds /
-      _player.state.duration.inMilliseconds;
+  double get buffered => duration.inMilliseconds == 0
+      ? 0
+      : position.inMilliseconds / duration.inMilliseconds;
 
   @override
   Duration get duration => _player.state.duration;
@@ -352,37 +352,55 @@ class FlutterBasePlayerMediaKitPlayer extends FlutterBasePlayerPlatform {
 
   @override
   BaseTrack get audioTrack => BaseTrack(
-      title: getAudioTrackTitle(_player.state.track.audio),
-      language: _player.state.track.audio.language,
-      raw: _player.state.track.audio);
+        id: _player.state.track.audio.id,
+        title: getAudioTrackTitle(_player.state.track.audio),
+        language: _player.state.track.audio.language,
+        raw: _player.state.track.audio,
+      );
 
   @override
   List<BaseTrack> get audioTracks => _player.state.tracks.audio
-      .map((e) =>
-          BaseTrack(title: getAudioTrackTitle(e), language: e.language, raw: e))
+      .map((e) => BaseTrack(
+            id: e.id,
+            title: getAudioTrackTitle(e),
+            language: e.language,
+            raw: e,
+          ))
       .toList();
 
   @override
   BaseTrack get subtitleTrack => BaseTrack(
-      title: getSubtitleTrackTitle(_player.state.track.subtitle),
-      language: _player.state.track.subtitle.language,
-      raw: _player.state.track.subtitle);
+        id: _player.state.track.subtitle.id,
+        title: getSubtitleTrackTitle(_player.state.track.subtitle),
+        language: _player.state.track.subtitle.language,
+        raw: _player.state.track.subtitle,
+      );
 
   @override
   List<BaseTrack> get subtitleTracks => _player.state.tracks.subtitle.map((e) {
         return BaseTrack(
-            title: getSubtitleTrackTitle(e), language: e.language, raw: e);
+          id: e.id,
+          title: getSubtitleTrackTitle(e),
+          language: e.language,
+          raw: e,
+        );
       }).toList();
 
   @override
   BaseTrack get videoTrack => BaseTrack(
-      title: getVideoTrackTitle(_player.state.track.video),
-      language: _player.state.track.video.language,
-      raw: _player.state.track.video);
+        id: _player.state.track.video.id,
+        title: getVideoTrackTitle(_player.state.track.video),
+        language: _player.state.track.video.language,
+        raw: _player.state.track.video,
+      );
 
   @override
   List<BaseTrack> get videoTracks => _player.state.tracks.video
-      .map((e) =>
-          BaseTrack(title: getVideoTrackTitle(e), language: e.language, raw: e))
+      .map((e) => BaseTrack(
+            id: e.id,
+            title: getVideoTrackTitle(e),
+            language: e.language,
+            raw: e,
+          ))
       .toList();
 }
