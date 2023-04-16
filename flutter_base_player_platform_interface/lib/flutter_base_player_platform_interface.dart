@@ -72,11 +72,13 @@ abstract class FlutterBasePlayerPlatform extends PlatformInterface {
 }
 
 class BaseTrack {
+  String? id;
   String? title;
   String? language;
   dynamic raw;
 
   BaseTrack({
+    this.id,
     this.title,
     this.language,
     this.raw,

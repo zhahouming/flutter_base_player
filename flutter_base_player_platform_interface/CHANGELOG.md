@@ -1,3 +1,7 @@
+## 0.1.7
+
+- add track id
+
 ## 0.1.6
 
 - support multi instance
