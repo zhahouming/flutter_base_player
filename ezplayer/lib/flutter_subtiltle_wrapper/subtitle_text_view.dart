@@ -32,8 +32,7 @@ class SubtitleTextView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final subtitleBloc = BlocProvider.of<SubtitleBloc>(context);
-
-    // TODO (Joran-Dob), improve this workaround.
+    // ignore: no_leading_underscores_for_local_identifiers
     void _subtitleBlocListener(BuildContext _, SubtitleState state) {
       if (state is SubtitleInitialized) {
         subtitleBloc.add(LoadSubtitle());
