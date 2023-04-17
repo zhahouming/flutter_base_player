@@ -27,14 +27,6 @@ class _PlayerOverlayState extends State<PlayerOverlay>
   @override
   void initState() {
     initTimer();
-    // _vCtrl = widget.controller.vCtrl;
-    // videoName = widget.controller.name;
-    // _vCtrl.addListener(syncDurationState);
-    // _vCtrl.addListener(syncPercent);
-    // _vCtrl.addListener(syncVideoCtrl);
-    // widget.controller.syncNewCtrl.addListener(syncNewCtrl);
-    // widget.controller.destoryOldCtrl.addListener(destoryOldCtrl);
-
     initProgress();
     initDragTB();
     initDragBottom();
@@ -54,28 +46,73 @@ class _PlayerOverlayState extends State<PlayerOverlay>
                     width: box.maxWidth,
                     backgroundColor: Colors.black12,
                   ),
-                ).gestures(
-                  onTap: toggleBar,
-                  onLongPressStart: onLongPressStart,
-                  onLongPressMoveUpdate: (d) =>
-                      onLongPressMoveUpdate(d, context),
-                  onLongPressEnd: onLongPressEnd,
-                  onHorizontalDragStart: onHorizontalDragStart,
-                  onHorizontalDragUpdate: onHorizontalDragUpdate,
-                  onHorizontalDragEnd: onHorizontalDragEnd,
-                  onHorizontalDragCancel: onHorizontalDragCancel,
-                  onVerticalDragStart: onVerticalDragStart,
-                  onVerticalDragUpdate: onVerticalDragUpdate,
-                  onVerticalDragEnd: onVerticalDragEnd,
-                  onVerticalDragCancel: onVerticalDragCancel,
-                )),
-        // SubtitleWrapper(
-        //   videoPlayerController: videoPlayerController,
-        //   subtitleController: subtitleController,
-        //   subtitleStyle: subtitleStyle,
-        //   backgroundColor: backgroundColor,
-        //   videoChild: this,
-        // ),
+                )
+                    .subtitle(
+                      videoPlayerController: widget.controller,
+                      subtitleController: widget.ezplayer.subtitleController,
+                      backgroundColor:
+                          widget.ezplayer.subtitleStyle.backgroundColor,
+                      subtitleStyle: SubtitleStyle(
+                        hasBorder: widget.ezplayer.subtitleStyle.hasBorder,
+                        borderStyle:
+                            widget.ezplayer.subtitleStyle.borderStyle ??
+                                const SubtitleBorderStyle(),
+                        fontSize: widget.isFullscreen
+                            ? widget.ezplayer.subtitleStyle.fontSize * 1.8
+                            : widget.ezplayer.subtitleStyle.fontSize,
+                        textColor: widget.ezplayer.subtitleStyle.textColor,
+                        position: SubtitlePosition(
+                          top: widget.ezplayer.subtitleStyle.top,
+                          bottom: widget.ezplayer.subtitleStyle.bottom,
+                          left: widget.ezplayer.subtitleStyle.left,
+                          right: widget.ezplayer.subtitleStyle.right,
+                        ),
+                      ),
+                    )
+                    .gestures(
+                      onTap: toggleBar,
+                      onLongPressStart: onLongPressStart,
+                      onLongPressMoveUpdate: (d) =>
+                          onLongPressMoveUpdate(d, context),
+                      onLongPressEnd: onLongPressEnd,
+                      onHorizontalDragStart: onHorizontalDragStart,
+                      onHorizontalDragUpdate: onHorizontalDragUpdate,
+                      onHorizontalDragEnd: onHorizontalDragEnd,
+                      onHorizontalDragCancel: onHorizontalDragCancel,
+                      onVerticalDragStart: onVerticalDragStart,
+                      onVerticalDragUpdate: onVerticalDragUpdate,
+                      onVerticalDragEnd: onVerticalDragEnd,
+                      onVerticalDragCancel: onVerticalDragCancel,
+                    )),
+        if (widget.controller.completed && !widget.controller.hasError)
+          Container(
+            // height: box.maxWidth / (ratio ?? aspectRatio),
+            // width: box.maxWidth,
+            color: Colors.black54,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                IconButton(
+                  icon: const Icon(
+                    Icons.replay,
+                    color: Color.fromARGB(255, 67, 173, 255),
+                  ),
+                  onPressed: () {
+                    widget.controller.replay();
+                  },
+                ),
+                TextButton(
+                  onPressed: () {
+                    widget.controller.replay();
+                  },
+                  child: const Text(
+                    '重新播放',
+                    style: TextStyle(color: Color.fromARGB(255, 67, 173, 255)),
+                  ),
+                ),
+              ],
+            ),
+          ),
         // topBar
         AnimatedPositioned(
           duration: const Duration(milliseconds: 300),
@@ -126,27 +163,24 @@ class _PlayerOverlayState extends State<PlayerOverlay>
         ),
 
         // left btn
-        // AnimatedPositioned(
-        //   duration: const Duration(milliseconds: 300),
-        //   left: hidebar ? -40 : 0,
-        //   top: 0,
-        //   bottom: 0,
-        //   child: SyyVideoIconBtn(
-        //     iconData: Icons.airplay,
-        //     onPressed: () {},
-        //   ).center(),
-        // ),
+        if (widget.ezplayer.leftBtn != null)
+          AnimatedPositioned(
+            duration: const Duration(milliseconds: 300),
+            left: hidebar ? -40 : 0,
+            top: 0,
+            bottom: 0,
+            child: widget.ezplayer.leftBtn!.center(),
+          ),
+
         // right btn
-        AnimatedPositioned(
-          duration: const Duration(milliseconds: 300),
-          right: hidebar ? -40 : 0,
-          top: 0,
-          bottom: 0,
-          child: SyyVideoIconBtn(
-            iconData: Icons.airplay,
-            onPressed: () {},
-          ).center(),
-        ),
+        if (widget.ezplayer.rightBtn != null)
+          AnimatedPositioned(
+            duration: const Duration(milliseconds: 300),
+            right: hidebar ? -40 : 0,
+            top: 0,
+            bottom: 0,
+            child: widget.ezplayer.rightBtn!.center(),
+          ),
 
         if (seeking)
           SeekingOverlay(

@@ -1,6 +1,10 @@
 part of '../ezplayer.dart';
 
-class EzplayerTextBtn extends StatelessWidget {
+abstract class EzplayerBtn extends StatelessWidget {
+  const EzplayerBtn({super.key});
+}
+
+class EzplayerTextBtn extends EzplayerBtn {
   final String text;
   final Color color;
   final void Function() onPressed;
@@ -15,17 +19,17 @@ class EzplayerTextBtn extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Text(text, style: TextStyle(color: color, fontSize: 12))
-        .div(DivStyle(alignment: Alignment.center, height: 40, width: 40))
+        .div(DivStyle(alignment: Alignment.center, height: 40, paddingLR: 8))
         .ink(onPressed, radius: 40);
   }
 }
 
-class SyyVideoIconBtn extends StatelessWidget {
+class EzplayerIconBtn extends EzplayerBtn {
   final IconData iconData;
   final Color color;
   final void Function() onPressed;
 
-  const SyyVideoIconBtn({
+  const EzplayerIconBtn({
     Key? key,
     required this.iconData,
     required this.onPressed,
@@ -198,5 +202,79 @@ class _SyyTabBarViewState extends State<SyyTabBarView>
       alignment: Alignment.center,
       backgroundColor: Colors.black87,
     ));
+  }
+}
+
+class EzplayerPlusMinus extends StatelessWidget {
+  final String title;
+  final String value;
+  final void Function() onMinus;
+  final void Function() onPlus;
+  final void Function() onReset;
+  final EzPlayer ezplayer;
+  const EzplayerPlusMinus({
+    super.key,
+    required this.title,
+    required this.value,
+    required this.onMinus,
+    required this.onPlus,
+    required this.onReset,
+    required this.ezplayer,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Text(
+          title,
+          style: const TextStyle(fontSize: 14, color: Colors.white),
+        ).div(DivStyle(marginBottom: 20, marginTop: 10)),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            IconButton(
+              icon: const Icon(
+                Icons.text_decrease,
+                color: Colors.white,
+                size: 18,
+              ),
+              onPressed: onMinus,
+            ),
+            Text(
+              value,
+              style: const TextStyle(fontSize: 18, color: Colors.white),
+            ).div(DivStyle(
+              width: 80,
+              alignment: Alignment.center,
+              height: 20,
+            )),
+            IconButton(
+              icon: const Icon(
+                Icons.add,
+                color: Colors.white,
+                size: 18,
+              ),
+              onPressed: onPlus,
+            ),
+          ],
+        ).div(DivStyle(marginBottom: 20)),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            TextButton(
+              onPressed: onReset,
+              child: const Text('恢复默认'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('保存修改'),
+            ),
+          ],
+        )
+      ],
+    );
   }
 }

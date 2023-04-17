@@ -27,6 +27,7 @@ abstract class FlutterBasePlayerPlatform extends PlatformInterface {
   void dispose();
   void play();
   void pause();
+  void replay();
   void seek(Duration position);
   void setVolume(double volume);
   void setPlaybackSpeed(double speed);

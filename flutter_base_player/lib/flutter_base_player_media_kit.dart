@@ -202,6 +202,11 @@ class FlutterBasePlayerMediaKitPlayer extends FlutterBasePlayerPlatform {
   }
 
   @override
+  void replay() {
+    _player.playOrPause();
+  }
+
+  @override
   void seek(Duration position) {
     _player.seek(position);
   }
@@ -313,11 +318,25 @@ class FlutterBasePlayerMediaKitPlayer extends FlutterBasePlayerPlatform {
                     width: box.maxWidth,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: const [
-                        Text(
-                          '播放结束',
-                          style: TextStyle(
-                              color: Color.fromARGB(255, 67, 173, 255)),
+                      children: [
+                        IconButton(
+                          icon: const Icon(
+                            Icons.replay,
+                            color: Color.fromARGB(255, 67, 173, 255),
+                          ),
+                          onPressed: () {
+                            _player.playOrPause();
+                          },
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            _player.playOrPause();
+                          },
+                          child: const Text(
+                            '重新播放',
+                            style: TextStyle(
+                                color: Color.fromARGB(255, 67, 173, 255)),
+                          ),
                         ),
                       ],
                     ),

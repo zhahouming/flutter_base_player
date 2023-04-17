@@ -92,15 +92,15 @@ packages:
       path: ".."
       relative: true
     source: path
-    version: "0.1.6"
+    version: "0.1.9"
   flutter_base_player_platform_interface:
     dependency: transitive
     description:
       name: flutter_base_player_platform_interface
-      sha256: "35c35d2a6977a64675c486ee972533a61df9766f72c9d10f09ab77f11a2a6c9a"
+      sha256: d421e13feb616d06fed54fa506e780cab234e622f9143846e48bfa82066288a6
       url: "https://pub.dev"
     source: hosted
-    version: "0.1.7"
+    version: "0.1.8"
   flutter_lints:
     dependency: "direct dev"
     description:

@@ -1,3 +1,16 @@
+## 0.1.9
+
+- support replay
+
+## 0.1.8
+
+- support replay
+
+## 0.1.7
+
+- support completed state
+- add precompleteStream event
+
 ## 0.1.6
 
 - fix loading support 

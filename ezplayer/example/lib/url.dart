@@ -20,6 +20,7 @@ class _UrlPageState extends State<UrlPage> {
 
   @override
   void initState() {
+    player.setShowBackBtn(true);
     player.attachMenu(OverlaySelectItem(
       title: '测试菜单',
       subtitle: 'desc',
@@ -50,11 +51,18 @@ class _UrlPageState extends State<UrlPage> {
           );
         },
       ),
-      ButtonPosition.left,
+      ButtonPosition.bottomLeft,
     );
     player.attachButton(
       EzplayerTextBtn(
         text: 'right',
+        onPressed: () {},
+      ),
+      ButtonPosition.bottomRight,
+    );
+    player.attachButton(
+      EzplayerIconBtn(
+        iconData: Icons.airplay,
         onPressed: () {},
       ),
       ButtonPosition.right,
@@ -75,9 +83,9 @@ class _UrlPageState extends State<UrlPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('EzPlayer'),
-      ),
+      // appBar: AppBar(
+      //   title: const Text('EzPlayer'),
+      // ),
       body: Container(
         // height: 300,
         width: MediaQuery.of(context).size.width,

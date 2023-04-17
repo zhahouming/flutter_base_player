@@ -7,7 +7,7 @@ class BottomBar extends StatelessWidget {
   final bool isFullscreen;
   final String positionTime;
   final String totalTime;
-  final SyyVideoProgressBarController pCtrl;
+  final EzplayerProgressBarController pCtrl;
   final void Function() togglePlay;
   final List<Widget> bottomLeftBtns;
   final List<Widget> bottomRightBtns;
@@ -32,20 +32,13 @@ class BottomBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // WidgetsBinding.instance.addPostFrameCallback((_) {
-    //   syyVCtrl.updateOverlay(
-    //     widget: playbackSpeedSelectOverlay,
-    //     alignment: Alignment.centerRight,
-    //   );
-    // });
-
     return Column(
       children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             _PlayedTime(positionTime),
-            SyyVideoProgressBar(controller: pCtrl)
+            EzplayerProgressBar(controller: pCtrl)
                 .div(DivStyle(alignment: Alignment.center, height: 10))
                 .expanded(),
             _TotalTime(totalTime),
@@ -58,7 +51,7 @@ class BottomBar extends StatelessWidget {
           children: [
             Row(
               children: [
-                SyyVideoIconBtn(
+                EzplayerIconBtn(
                   iconData: isPlaying ? Icons.pause : Icons.play_arrow_rounded,
                   onPressed: togglePlay,
                 ),
@@ -70,9 +63,10 @@ class BottomBar extends StatelessWidget {
             Row(
               children: [
                 ...bottomRightBtns,
+                SubtitleExternal(ezplayer: ezplayer),
                 AudioTrack(ezplayer: ezplayer),
                 SubtitleTrack(ezplayer: ezplayer),
-                SyyVideoIconBtn(
+                EzplayerIconBtn(
                   iconData:
                       isFullscreen ? Icons.fullscreen_exit : Icons.fullscreen,
                   onPressed: () {

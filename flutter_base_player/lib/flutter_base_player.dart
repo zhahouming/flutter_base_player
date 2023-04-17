@@ -72,6 +72,10 @@ class FlutterBasePlayer {
     _platform.setVolume(volume);
   }
 
+  void replay() {
+    _platform.replay();
+  }
+
   Widget builder(BuildContext context,
       {BoxFit? fit, double? ratio, Color? color}) {
     return _platform.builder(context, fit, ratio, color);
@@ -85,6 +89,8 @@ class FlutterBasePlayer {
   double get aspectRatio => _platform.aspectRatio;
 
   double get buffered => _platform.buffered;
+
+  bool get completed => _platform.completed;
 
   Duration get duration => _platform.duration;
 
@@ -109,6 +115,8 @@ class FlutterBasePlayer {
   double get volume => _platform.volume;
 
   ChangeNotifier get eventStream => _platform.eventStream;
+
+  ChangeNotifier get precompleteStream => _platform.precompleteStream;
 
   BaseTrack? get audioTrack => _platform.audioTrack;
 

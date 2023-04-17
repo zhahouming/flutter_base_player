@@ -26,16 +26,32 @@ class TopBar extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
+        if (!isFullscreen && ezplayer.showBackBtn)
+          IconButton(
+            onPressed: Navigator.of(context).pop,
+            icon: const Icon(
+              Icons.arrow_back_ios,
+              color: Colors.white,
+              size: 14,
+            ),
+          ).div(DivStyle(marginLeft: 3)),
         Text(
           titleText,
-          style: const TextStyle(color: Colors.white70, fontSize: 18),
-        ).div(DivStyle(marginLeft: 17)).expanded(),
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+          style: const TextStyle(color: Colors.white70, fontSize: 14),
+        )
+            .div(DivStyle(
+              marginLeft: !isFullscreen && ezplayer.showBackBtn ? 0 : 17,
+              paddingBottom: 3,
+            ))
+            .expanded(),
         Text(
           timeFormat(DateTime.now().millisecondsSinceEpoch),
           style: const TextStyle(color: Colors.white, fontSize: 12),
         ).div(DivStyle(marginRight: 17)),
         ...topBtns,
-        SyyVideoIconBtn(
+        EzplayerIconBtn(
           iconData: Icons.more_horiz,
           onPressed: onMenuTap ??
               () async {

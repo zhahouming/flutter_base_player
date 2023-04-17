@@ -1,7 +1,7 @@
 part of '../ezplayer.dart';
 
-class SyyVideoProgressBarController extends ChangeNotifier {
-  SyyVideoProgressBarController({
+class EzplayerProgressBarController extends ChangeNotifier {
+  EzplayerProgressBarController({
     required this.bufferedPercent,
     required this.positionPercent,
   });
@@ -35,19 +35,19 @@ class SyyVideoProgressBarController extends ChangeNotifier {
   }
 }
 
-class SyyVideoProgressBar extends StatefulWidget {
-  const SyyVideoProgressBar({
+class EzplayerProgressBar extends StatefulWidget {
+  const EzplayerProgressBar({
     Key? key,
     required this.controller,
   }) : super(key: key);
 
-  final SyyVideoProgressBarController controller;
+  final EzplayerProgressBarController controller;
 
   @override
-  State<SyyVideoProgressBar> createState() => _SyyVideoProgressBarState();
+  State<EzplayerProgressBar> createState() => _EzplayerProgressBarState();
 }
 
-class _SyyVideoProgressBarState extends State<SyyVideoProgressBar> {
+class _EzplayerProgressBarState extends State<EzplayerProgressBar> {
   double bufferedPercent = 0;
   double positionPercent = 0;
   double positionPercentDraging = 0;

@@ -19,6 +19,19 @@ class _FilePageState extends State<FilePage> {
 
   @override
   void initState() {
+    player.externalSubtitles = [
+      EzplayerSubtitleExternal(
+        id: '1',
+        title: 'KungFu',
+        language: 'Chinese',
+        source: 'assets',
+        load: () async {
+          final bundle = DefaultAssetBundle.of(context);
+          String str = await bundle.loadString('assets/video/KungFu.srt');
+          return str;
+        },
+      )
+    ];
     Future.microtask(() async {
       await player.controller.loadFile(widget.file);
       await player.controller.play();

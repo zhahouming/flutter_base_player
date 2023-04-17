@@ -166,6 +166,11 @@ class FlutterBasePlayerVideoPlayer extends FlutterBasePlayerPlatform {
   }
 
   @override
+  void replay() {
+    _controller?.play();
+  }
+
+  @override
   void seek(Duration position) {
     _controller?.seekTo(position);
   }
@@ -305,11 +310,25 @@ class FlutterBasePlayerVideoPlayer extends FlutterBasePlayerPlatform {
                         color: Colors.black54,
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
-                          children: const [
-                            Text(
-                              '播放结束',
-                              style: TextStyle(
-                                  color: Color.fromARGB(255, 67, 173, 255)),
+                          children: [
+                            IconButton(
+                              icon: const Icon(
+                                Icons.replay,
+                                color: Color.fromARGB(255, 67, 173, 255),
+                              ),
+                              onPressed: () {
+                                _controller?.play();
+                              },
+                            ),
+                            TextButton(
+                              onPressed: () {
+                                _controller?.play();
+                              },
+                              child: const Text(
+                                '重新播放',
+                                style: TextStyle(
+                                    color: Color.fromARGB(255, 67, 173, 255)),
+                              ),
                             ),
                           ],
                         ),

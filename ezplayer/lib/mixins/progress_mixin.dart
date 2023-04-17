@@ -1,7 +1,7 @@
 part of '../ezplayer.dart';
 
 mixin _ProgressMixin on _BaseMixin {
-  late SyyVideoProgressBarController pCtrl;
+  late EzplayerProgressBarController pCtrl;
 
   double get positionPercent =>
       totalSeconds == 0 ? 0 : positionSeconds / totalSeconds;
@@ -24,7 +24,7 @@ mixin _ProgressMixin on _BaseMixin {
   }
 
   initProgress() {
-    pCtrl = SyyVideoProgressBarController(
+    pCtrl = EzplayerProgressBarController(
       bufferedPercent: 0,
       positionPercent: 0,
     );

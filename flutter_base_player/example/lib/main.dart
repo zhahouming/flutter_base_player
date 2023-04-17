@@ -16,6 +16,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
+      // showPerformanceOverlay: true,
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
@@ -29,15 +30,29 @@ class LauncherPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextButton(
-      onPressed: () {
-        Navigator.of(context).push(
-          MaterialPageRoute(
-              builder: (context) =>
-                  const MyHomePage(title: 'Flutter Demo Home Page')),
-        );
-      },
-      child: const Text('jump'),
+    return Column(
+      children: [
+        TextButton(
+          onPressed: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                  builder: (context) =>
+                      const MyHomePage(title: 'Flutter Demo Home Page')),
+            );
+          },
+          child: const Text('jump'),
+        ),
+        TextButton(
+          onPressed: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                  builder: (context) => const MyHomePagePure(
+                      title: 'Flutter Demo Home Page Pure')),
+            );
+          },
+          child: const Text('jump pure'),
+        )
+      ],
     );
   }
 }
@@ -402,6 +417,105 @@ class _MyHomePageState extends State<MyHomePage> {
           player.play();
         },
         child: const Icon(Icons.play_circle),
+      ),
+    );
+  }
+}
+
+class MyHomePagePure extends StatefulWidget {
+  const MyHomePagePure({super.key, required this.title});
+
+  final String title;
+
+  @override
+  State<MyHomePagePure> createState() => _MyHomePagePureState();
+}
+
+class _MyHomePagePureState extends State<MyHomePagePure> {
+  FlutterBasePlayer player = FlutterBasePlayer();
+  FlutterBasePlayer player2 = FlutterBasePlayer();
+
+  BoxFit fit = BoxFit.contain;
+  double ratio = 4 / 3;
+  String inputUrl = '';
+  String inputHeaders = '';
+  TextEditingController inputController = TextEditingController();
+  TextEditingController inputController2 = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    player.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(widget.title),
+      ),
+      body: ListView(
+        children: [
+          player.builder(context),
+          const SizedBox(height: 30),
+          Wrap(
+            spacing: 20,
+            runSpacing: 10,
+            children: [
+              TextButton(
+                  onPressed: () async {
+                    try {
+                      FilePickerResult? result =
+                          await FilePicker.platform.pickFiles();
+                      if (result != null) {
+                        File file = File(result.files.single.path!);
+                        await player.loadFile(file);
+                        player.play();
+                      } else {
+                        // User canceled the picker
+                      }
+                    } catch (err) {
+                      print('error' + err.toString());
+                    }
+                  },
+                  child: const Text('load file')),
+              TextButton(onPressed: player.play, child: const Text('play')),
+              TextButton(onPressed: player.pause, child: const Text('pause')),
+              TextButton(
+                onPressed: () {
+                  player
+                      .seek(Duration(seconds: player.position.inSeconds + 10));
+                },
+                child: const Text('seek +10s'),
+              ),
+              TextButton(
+                onPressed: () {
+                  player
+                      .seek(Duration(seconds: player.position.inSeconds + 60));
+                },
+                child: const Text('seek +60s'),
+              ),
+              TextButton(
+                onPressed: () {
+                  player.setPlaybackSpeed(1.0);
+                },
+                child: const Text('setPlaybackSpeed 1.0'),
+              ),
+              TextButton(
+                onPressed: () {
+                  player.setPlaybackSpeed(2.0);
+                },
+                child: const Text('setPlaybackSpeed 2.0'),
+              ),
+            ],
+          ),
+          const SizedBox(height: 30),
+        ],
       ),
     );
   }

@@ -1,3 +1,7 @@
+## 0.1.8
+
+- add replay
+
 ## 0.1.7
 
 - add track id

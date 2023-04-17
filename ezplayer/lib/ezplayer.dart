@@ -12,7 +12,9 @@ import 'package:flutter_base_player/flutter_base_player.dart';
 import 'package:screen_brightness/screen_brightness.dart';
 import 'package:flutter_volume_controller/flutter_volume_controller.dart';
 import 'package:date_format/date_format.dart';
+import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 
+import './flutter_subtiltle_wrapper/index.dart';
 import 'fullscreen.dart';
 
 part 'utils.dart';
@@ -26,11 +28,11 @@ part 'overlay/topbar.dart';
 part 'overlay/custom_tab_indicator.dart';
 part 'overlay/vslider.dart';
 part 'overlay/bottombar.dart';
-part 'overlay/btns/ezplayer_btn.dart';
 part 'overlay/btns/speedup.dart';
 part 'overlay/btns/video_boxfit.dart';
 part 'overlay/btns/audio_track.dart';
 part 'overlay/btns/subtitle_track.dart';
+part 'overlay/btns/subtitle_external.dart';
 
 part 'mixins/base.dart';
 part 'mixins/overlay_timer.dart';
@@ -40,19 +42,32 @@ part 'mixins/longpress_mixin.dart';
 part 'mixins/progress_mixin.dart';
 part 'mixins/methods.dart';
 
-enum ButtonPosition { left, right }
+enum ButtonPosition { left, right, bottomLeft, bottomRight }
 
 class EzPlayer {
-  List<OverlaySelectItem> menuBtns = [];
-  List<EzplayerTextBtn> bottomLeftBtns = [];
-  List<EzplayerTextBtn> bottomRightBtns = [];
+  bool showBackBtn = false;
+  setShowBackBtn(bool visible) {
+    showBackBtn = visible;
+  }
 
-  attachButton(EzplayerTextBtn btn, ButtonPosition position) {
-    if (position == ButtonPosition.left) {
+  List<OverlaySelectItem> menuBtns = [];
+  List<EzplayerBtn> bottomLeftBtns = [];
+  List<EzplayerBtn> bottomRightBtns = [];
+  EzplayerBtn? leftBtn;
+  EzplayerBtn? rightBtn;
+
+  attachButton(EzplayerBtn btn, ButtonPosition position) {
+    if (position == ButtonPosition.bottomLeft) {
       bottomLeftBtns.add(btn);
     }
-    if (position == ButtonPosition.right) {
+    if (position == ButtonPosition.bottomRight) {
       bottomRightBtns.add(btn);
+    }
+    if (position == ButtonPosition.left) {
+      leftBtn = btn;
+    }
+    if (position == ButtonPosition.right) {
+      rightBtn = btn;
     }
   }
 
@@ -98,14 +113,24 @@ class EzPlayer {
     controller.eventStream.notifyListeners();
   }
 
-  EzplayerBtn ezplayerBtn(String btnText, List<OverlaySelectItem> options,
-      [String? title]) {
-    return EzplayerBtn(
-      ezplayer: this,
-      btnText: btnText,
-      options: options,
-      title: title,
+  EzplayerSubtitleExternal? externalSubtitle;
+  List<EzplayerSubtitleExternal> externalSubtitles = [];
+
+  SubtitleController? subtitleController;
+  EzplayerSubtitleStyle subtitleStyle = EzplayerSubtitleStyle();
+
+  setSubtitle([String? content]) async {
+    if (content == null) {
+      subtitleController = null;
+      externalSubtitle = null;
+      return;
+    }
+    subtitleController = SubtitleController(
+      subtitlesContent: content,
+      subtitleDecoder: SubtitleDecoder.utf8,
+      subtitleType: SubtitleType.srt,
     );
+    subtitleController?.setTimeOffset(subtitleStyle.time);
   }
 
   Widget builder(
