@@ -71,6 +71,7 @@ class _PlayerOverlayState extends State<PlayerOverlay>
                     )
                     .gestures(
                       onTap: toggleBar,
+                      onDoubleTap: onDoubleTap,
                       onLongPressStart: onLongPressStart,
                       onLongPressMoveUpdate: (d) =>
                           onLongPressMoveUpdate(d, context),

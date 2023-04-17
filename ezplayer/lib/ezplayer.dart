@@ -91,6 +91,9 @@ class EzPlayer {
 
   dispose() {
     controller.dispose();
+    aftterEnterFullscreen.dispose();
+    aftterExitFullscreen.dispose();
+    subtitleController?.detach();
   }
 
   setVideoName(String name) {
@@ -121,6 +124,7 @@ class EzPlayer {
 
   setSubtitle([String? content]) async {
     if (content == null) {
+      subtitleController?.detach();
       subtitleController = null;
       externalSubtitle = null;
       return;
@@ -133,12 +137,39 @@ class EzPlayer {
     subtitleController?.setTimeOffset(subtitleStyle.time);
   }
 
+  bool fullscreen = false;
+
+  ChangeNotifier aftterEnterFullscreen = ChangeNotifier();
+  ChangeNotifier aftterExitFullscreen = ChangeNotifier();
+
+  exitFullscreen(BuildContext context) {
+    aftterExitFullscreen.notifyListeners();
+    fullscreen = false;
+    return Navigator.of(context).pop();
+  }
+
+  enterFullscreen(BuildContext context) {
+    aftterEnterFullscreen.notifyListeners();
+    fullscreen = true;
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => FullScreenVideoPlayer(
+          this,
+          bottomLeftBtns: bottomLeftBtns,
+          bottomRightBtns: bottomRightBtns,
+        ),
+      ),
+    );
+  }
+
   Widget builder(
     BuildContext context, {
     double? ratio,
     Color? color,
     bool isFullscreen = false,
   }) {
+    fullscreen = isFullscreen;
     return LayoutBuilder(builder: (context, box) {
       return RawKeyboardListener(
         focusNode: FocusNode(),
@@ -161,6 +192,10 @@ class EzPlayer {
             if (event.physicalKey == PhysicalKeyboardKey.arrowLeft) {
               controller
                   .seek(Duration(seconds: controller.position.inSeconds - 10));
+            }
+
+            if (event.physicalKey == PhysicalKeyboardKey.escape && fullscreen) {
+              exitFullscreen(context);
             }
           }
         },

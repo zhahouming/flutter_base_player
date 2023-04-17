@@ -1,7 +1,7 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:ezplayer/ezplayer.dart';
+import 'package:window_manager/window_manager.dart';
 
 class FilePage extends StatefulWidget {
   final File file;
@@ -19,6 +19,14 @@ class _FilePageState extends State<FilePage> {
 
   @override
   void initState() {
+    player.aftterEnterFullscreen.addListener(() {
+      // print('aftterEnterFullscreen');
+      windowManager.setFullScreen(true);
+    });
+    player.aftterExitFullscreen.addListener(() {
+      // print('aftterExitFullscreen');
+      windowManager.setFullScreen(false);
+    });
     player.externalSubtitles = [
       EzplayerSubtitleExternal(
         id: '1',

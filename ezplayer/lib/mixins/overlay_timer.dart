@@ -19,6 +19,14 @@ mixin _OverlayTimerMixin on _BaseMixin {
     hideBar();
   }
 
+  onDoubleTap() {
+    if (widget.ezplayer.fullscreen) {
+      widget.ezplayer.exitFullscreen(context);
+    } else {
+      widget.ezplayer.enterFullscreen(context);
+    }
+  }
+
   showBar() {
     setState(() {
       hidebar = false;

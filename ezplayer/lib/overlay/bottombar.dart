@@ -1,3 +1,5 @@
+// ignore_for_file: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
+
 part of '../ezplayer.dart';
 
 class BottomBar extends StatelessWidget {
@@ -70,17 +72,11 @@ class BottomBar extends StatelessWidget {
                   iconData:
                       isFullscreen ? Icons.fullscreen_exit : Icons.fullscreen,
                   onPressed: () {
-                    if (isFullscreen) return Navigator.of(context).pop();
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => FullScreenVideoPlayer(
-                          ezplayer,
-                          bottomLeftBtns: bottomLeftBtns,
-                          bottomRightBtns: bottomRightBtns,
-                        ),
-                      ),
-                    );
+                    if (isFullscreen) {
+                      ezplayer.exitFullscreen(context);
+                      return;
+                    }
+                    ezplayer.enterFullscreen(context);
                   },
                 ),
               ],

@@ -15,6 +15,7 @@ dependencies:
     path: ../../ezplayer
   flutter_base_player: ^0.1.2
   file_picker: ^5.2.7
+  window_manager: ^0.3.2
 
 dev_dependencies:
   flutter_test:

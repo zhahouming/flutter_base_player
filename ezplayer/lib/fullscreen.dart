@@ -59,16 +59,7 @@ class _FullScreenVideoPlayerState extends State<FullScreenVideoPlayer> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: widget.player.builder(
-        context,
-        // widget.syyVCtrl,
-        isFullscreen: true,
-        // topBtns: widget.topBtns,
-        // bottomLeftBtns: widget.bottomLeftBtns,
-        // bottomRightBtns: widget.bottomRightBtns,
-        // leftBtn: widget.leftBtn,
-        // rightBtn: widget.rightBtn,
-      ),
+      body: widget.player.builder(context, isFullscreen: true),
     );
   }
 }

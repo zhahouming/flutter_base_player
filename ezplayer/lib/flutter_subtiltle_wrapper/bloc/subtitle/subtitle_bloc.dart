@@ -49,7 +49,7 @@ class SubtitleBloc extends Bloc<SubtitleEvent, SubtitleState> {
         if (videoPlayerPosition.inMilliseconds >
             (subtitles.subtitles.last.endTime.inMilliseconds +
                 subtitleController.timeOffset)) {
-          add(CompletedShowingSubtitles());
+          if (!isClosed) add(CompletedShowingSubtitles());
           return;
         }
         int cTime = videoPlayerPosition.inMilliseconds -
@@ -60,11 +60,11 @@ class SubtitleBloc extends Bloc<SubtitleEvent, SubtitleState> {
           int eTime = subtitleItem.endTime.inMilliseconds; // 字幕结束时间
           if (cTime > sTime && cTime < eTime) {
             cSubtitleItem = subtitleItem;
-            add(UpdateLoadedSubtitle(subtitle: cSubtitleItem));
+            if (!isClosed) add(UpdateLoadedSubtitle(subtitle: cSubtitleItem));
             return; // 找到匹配的字幕后，提前结束循环
           }
         }
-        add(UpdateLoadedSubtitle(subtitle: cSubtitleItem));
+        if (!isClosed) add(UpdateLoadedSubtitle(subtitle: cSubtitleItem));
       },
     );
   }
