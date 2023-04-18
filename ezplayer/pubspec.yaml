@@ -1,7 +1,7 @@
 name: ezplayer
 description: easy video player for flutter
 repository: https://github.com/zhahouming/flutter_base_player/ezplayer
-version: 0.0.2
+version: 0.1.0
 homepage: https://github.com/zhahouming/flutter_base_player/ezplayer
 
 environment:
@@ -11,7 +11,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  flutter_base_player: ^0.1.9
+  flutter_base_player: ^0.2.1
   flutter_volume_controller: ^1.2.5
   screen_brightness: ^0.2.2
   extension_widget: ^0.0.1

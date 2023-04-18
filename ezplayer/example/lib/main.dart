@@ -4,14 +4,18 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:window_manager/window_manager.dart';
+import 'package:ezplayer/ezplayer.dart';
 import './asset.dart';
 import './file.dart';
 import './url.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  EzPlayer.initialize();
   // Must add this line.
-  await windowManager.ensureInitialized();
+  if (Platform.isWindows || Platform.isMacOS || Platform.isLinux) {
+    await windowManager.ensureInitialized();
+  }
   runApp(const MyApp());
 }
 
@@ -68,7 +72,7 @@ class _LauncherPageState extends State<LauncherPage> {
                       // ignore: use_build_context_synchronously
                       routerPush(
                         context,
-                        (context) => FilePage(file: file),
+                        (context) => SafeArea(child: FilePage(file: file)),
                       );
                     } else {
                       // User canceled the picker
@@ -82,8 +86,10 @@ class _LauncherPageState extends State<LauncherPage> {
                 onPressed: () async {
                   routerPush(
                     context,
-                    (context) => const UrlPage(
-                      url: 'https://media.w3.org/2010/05/sintel/trailer.mp4',
+                    (context) => const SafeArea(
+                      child: UrlPage(
+                        url: 'https://media.w3.org/2010/05/sintel/trailer.mp4',
+                      ),
                     ),
                   );
                 },
@@ -92,8 +98,10 @@ class _LauncherPageState extends State<LauncherPage> {
                 onPressed: () async {
                   routerPush(
                     context,
-                    (context) => const AssetPage(
-                      asset: 'asset://assets/video/test.mp4',
+                    (context) => const SafeArea(
+                      child: AssetPage(
+                        asset: 'asset://assets/video/test.mp4',
+                      ),
                     ),
                   );
                 },
@@ -119,9 +127,11 @@ class _LauncherPageState extends State<LauncherPage> {
                 onPressed: () async {
                   routerPush(
                     context,
-                    (context) => UrlPage(
-                      url: inputController.value.text.trim(),
-                      headers: inputController2.value.text.trim(),
+                    (context) => SafeArea(
+                      child: UrlPage(
+                        url: inputController.value.text.trim(),
+                        headers: inputController2.value.text.trim(),
+                      ),
                     ),
                   );
                 },
@@ -153,7 +163,12 @@ class _LauncherPageState extends State<LauncherPage> {
                     ),
                     TextButton(
                       onPressed: () {
-                        routerPush(context, (context) => UrlPage(url: url));
+                        routerPush(
+                          context,
+                          (context) => SafeArea(
+                            child: UrlPage(url: url),
+                          ),
+                        );
                       },
                       child: const Text('play'),
                     ),

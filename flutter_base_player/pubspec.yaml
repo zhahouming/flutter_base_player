@@ -1,7 +1,7 @@
 name: flutter_base_player
 description: Universal video player for flutter
 repository: https://github.com/zhahouming/flutter_base_player/flutter_base_player
-version: 0.2.0
+version: 0.2.1
 homepage: https://github.com/zhahouming/flutter_base_player/flutter_base_player
 
 flutter:

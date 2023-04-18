@@ -45,6 +45,10 @@ part 'mixins/methods.dart';
 enum ButtonPosition { left, right, bottomLeft, bottomRight }
 
 class EzPlayer {
+  static initialize() {
+    FlutterBasePlayer.initialize();
+  }
+
   bool showBackBtn = false;
   setShowBackBtn(bool visible) {
     showBackBtn = visible;

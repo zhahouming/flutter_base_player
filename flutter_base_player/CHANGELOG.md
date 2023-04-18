@@ -1,3 +1,7 @@
+## 0.2.1
+
+- fix some error
+
 ## 0.2.0
 
 - use media_kit for android

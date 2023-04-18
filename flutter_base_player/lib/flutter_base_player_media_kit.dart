@@ -255,7 +255,7 @@ class FlutterBasePlayerMediaKitPlayer extends FlutterBasePlayerPlatform {
                   height: box.maxWidth / (ratio ?? aspectRatio),
                   fill: color ?? Colors.black,
                 ),
-                if (isBuffering)
+                if (isBuffering && !hasError)
                   Container(
                     height: box.maxWidth / (ratio ?? aspectRatio),
                     width: box.maxWidth,
@@ -273,7 +273,7 @@ class FlutterBasePlayerMediaKitPlayer extends FlutterBasePlayerPlatform {
                       ],
                     ),
                   ),
-                if (_isLoading)
+                if (_isLoading && !hasError)
                   Container(
                     height: box.maxWidth / (ratio ?? aspectRatio),
                     width: box.maxWidth,
