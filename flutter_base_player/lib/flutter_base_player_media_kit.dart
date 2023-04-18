@@ -145,7 +145,7 @@ class FlutterBasePlayerMediaKitPlayer extends FlutterBasePlayerPlatform {
       (_player.platform as libmpvPlayer)
           .setProperty("http-header-fields", headers);
     }
-    _controller = await VideoController.create(_player.handle);
+    _controller = await VideoController.create(_player);
     initListeners();
   }
 
@@ -178,7 +178,7 @@ class FlutterBasePlayerMediaKitPlayer extends FlutterBasePlayerPlatform {
 
   @override
   void initialize() {
-    // do nothing;
+    MediaKit.ensureInitialized();
   }
 
   @override

@@ -1,14 +1,14 @@
 name: flutter_base_player
 description: Universal video player for flutter
 repository: https://github.com/zhahouming/flutter_base_player/flutter_base_player
-version: 0.1.9
+version: 0.2.0
 homepage: https://github.com/zhahouming/flutter_base_player/flutter_base_player
 
 flutter:
   plugin:
     platforms:
       android:
-        dartPluginClass: FlutterBasePlayerVideoPlayer
+        dartPluginClass: FlutterBasePlayerMediaKitPlayer
       ios:
         dartPluginClass: FlutterBasePlayerMediaKitPlayer
       macos:
@@ -24,14 +24,14 @@ dependencies:
   flutter_base_player_platform_interface: ^0.1.8
   # flutter_base_player_platform_interface:
   #   path: ../flutter_base_player_platform_interface
-  video_player: ^2.6.1
-  media_kit: ^0.0.4+1
-  media_kit_video: ^0.0.4
-  media_kit_native_event_loop: ^1.0.2
-  media_kit_libs_windows_video: ^1.0.1          # Windows package for video (& audio) native libraries.
-  media_kit_libs_ios_video: ^1.0.3              # iOS package for video (& audio) native libraries.
-  media_kit_libs_macos_video: ^1.0.3            # macOS package for video (& audio) native libraries.
-  media_kit_libs_linux: ^1.0.1 
+  media_kit: ^0.0.5
+  media_kit_video: ^0.0.5
+  media_kit_native_event_loop: ^1.0.3
+  media_kit_libs_android_video: ^1.0.0
+  media_kit_libs_windows_video: ^1.0.2          # Windows package for video (& audio) native libraries.
+  media_kit_libs_ios_video: ^1.0.4              # iOS package for video (& audio) native libraries.
+  media_kit_libs_macos_video: ^1.0.4            # macOS package for video (& audio) native libraries.
+  media_kit_libs_linux: ^1.0.2 
   path: ^1.8.2
 
 dev_dependencies:

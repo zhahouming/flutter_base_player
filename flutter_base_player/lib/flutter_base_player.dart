@@ -5,7 +5,6 @@ import 'package:path/path.dart';
 import 'package:flutter_base_player_platform_interface/flutter_base_player_platform_interface.dart';
 
 export './change_notifier_builder.dart';
-export './flutter_base_player_video_player.dart';
 export './flutter_base_player_media_kit.dart';
 export 'package:flutter_base_player_platform_interface/flutter_base_player_platform_interface.dart'
     show BaseTrack;
@@ -16,7 +15,7 @@ class FlutterBasePlayer {
     _platform = FlutterBasePlayerPlatform.instance();
   }
   static initialize() {
-    // FlutterBasePlayerPlatform.instance.initialize();
+    FlutterBasePlayerPlatform.instance().initialize();
   }
 
   // static FlutterBasePlayerPlatform get _platform {

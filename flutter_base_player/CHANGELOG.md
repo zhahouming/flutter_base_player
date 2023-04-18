@@ -1,3 +1,7 @@
+## 0.2.0
+
+- use media_kit for android
+
 ## 0.1.9
 
 - support replay
