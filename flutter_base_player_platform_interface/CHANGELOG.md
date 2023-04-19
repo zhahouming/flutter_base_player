@@ -1,3 +1,7 @@
+## 0.2.0
+
+- support buffered size
+
 ## 0.1.9
 
 - support headers

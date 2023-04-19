@@ -21,9 +21,22 @@ abstract class FlutterBasePlayerPlatform extends PlatformInterface {
 
   void setProperty(String property, String value);
 
-  Future<void> assets(String path);
-  Future<void> file(File file);
-  Future<void> network(String url, [Map? headers]);
+  Future<void> assets(
+    String path, {
+    int? bufferSize,
+    LogLevel? logLevel,
+  });
+  Future<void> file(
+    File file, {
+    int? bufferSize,
+    LogLevel? logLevel,
+  });
+  Future<void> network(
+    String url, {
+    Map? headers,
+    int? bufferSize,
+    LogLevel? logLevel,
+  });
 
   void initialize();
   void dispose();
@@ -87,3 +100,5 @@ class BaseTrack {
     this.raw,
   });
 }
+
+enum LogLevel { none, trace, debug, info, warn, error, fatal }
