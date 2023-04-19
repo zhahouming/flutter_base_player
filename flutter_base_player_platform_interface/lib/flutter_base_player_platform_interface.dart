@@ -19,9 +19,11 @@ abstract class FlutterBasePlayerPlatform extends PlatformInterface {
 
   static late FlutterBasePlayerPlatform Function() instance;
 
+  void setProperty(String property, String value);
+
   Future<void> assets(String path);
   Future<void> file(File file);
-  Future<void> network(String url, [String? headers]);
+  Future<void> network(String url, [Map? headers]);
 
   void initialize();
   void dispose();

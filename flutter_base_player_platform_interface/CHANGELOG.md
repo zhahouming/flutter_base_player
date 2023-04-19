@@ -1,3 +1,7 @@
+## 0.1.9
+
+- support headers
+
 ## 0.1.8
 
 - add replay
