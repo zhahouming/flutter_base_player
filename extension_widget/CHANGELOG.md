@@ -1,3 +1,6 @@
+## 0.0.2
+- fix: Ink conflict
+
 ## 0.0.1
 
-* support div、ink、blurdiv、theme、navblur、syyLinearGradient、syyShaderMask
+- support div、ink、blurdiv、theme、navblur、syyLinearGradient、syyShaderMask

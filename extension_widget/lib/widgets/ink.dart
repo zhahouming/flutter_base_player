@@ -1,13 +1,13 @@
 part of '../extension_widget.dart';
 
-class Ink extends StatelessWidget {
+class EzInk extends StatelessWidget {
   final Widget child;
   final Function()? onPressed;
   final Function()? onLongPressed;
   final Function()? onDoubleTap;
   final double radius;
 
-  const Ink({
+  const EzInk({
     Key? key,
     required this.child,
     this.onPressed,

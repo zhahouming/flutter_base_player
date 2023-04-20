@@ -26,7 +26,7 @@ extension StyledExtensionWidget on Widget {
     Function()? onLongPressed,
     Function()? onDoubleTap,
   }) =>
-      Ink(
+      EzInk(
         key: key,
         onPressed: onPressed,
         onLongPressed: onLongPressed,
