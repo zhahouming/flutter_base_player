@@ -5,14 +5,12 @@ class EzplayerSubtitleExternal {
   final String? title;
   final String? language;
   final String source;
-  final dynamic raw;
-  final Future<String> Function() load;
+  final Future<String?> Function() load;
 
   EzplayerSubtitleExternal({
     required this.id,
     this.title,
     this.language,
-    this.raw,
     required this.load,
     required this.source,
   });
@@ -51,8 +49,10 @@ class SubtitleExternal extends StatelessWidget {
                             selected: ezplayer.externalSubtitle?.id == item.id,
                             onPressed: () async {
                               ezplayer.externalSubtitle = item;
-                              String content = await item.load();
-                              ezplayer.setSubtitle(content);
+                              String? content = await item.load();
+                              if (content != null) {
+                                ezplayer.setSubtitle(content);
+                              }
                             },
                           ))
                       .toList(),
