@@ -1,3 +1,6 @@
+## 0.0.3
+- fix: BlurDiv
+
 ## 0.0.2
 - fix: Ink conflict
 

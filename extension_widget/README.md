@@ -1,3 +1,29 @@
+## Intro
+
+Box model, inspired by css
+
+```dart
+// Container
+Text('abc').div(DivStyle(
+  height: 50,
+  width: 50,
+  paddingAll: 10,
+  backgroundColor: Colors.blue,
+  alignment: Alignment.center,
+  radiusAll: 30,
+)).div(DivStyle(
+  paddingAll: 10,
+  marginAll: 10,
+  backgroundColor: Colors.green,
+  alignment: Alignment.center,
+  radiusAll: 50,
+)).ink(() {
+  print('clicked!')
+});
+
+
+```
+
 ## Getting started
 
 ```dart

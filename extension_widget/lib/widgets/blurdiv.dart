@@ -26,7 +26,8 @@ class BlurDiv extends StatelessWidget {
           minWidth: divStyle.minWidth!,
         ),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(divStyle.radiusAll!)),
+          borderRadius:
+              BorderRadius.all(Radius.circular(divStyle.radiusAll ?? 0)),
           border: style?.border ??
               Border.all(
                 width: .5,
@@ -59,7 +60,8 @@ class BlurDiv extends StatelessWidget {
     }
     return Container(
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(divStyle.radiusAll!)),
+        borderRadius:
+            BorderRadius.all(Radius.circular(divStyle.radiusAll ?? 0)),
         border: style?.border ??
             Border.all(
               width: .5,
