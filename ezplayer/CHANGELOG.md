@@ -1,3 +1,7 @@
+## 1.0.2
+
+- fix: external subtitle load
+
 ## 1.0.1
 
 - fix: external subtitle load

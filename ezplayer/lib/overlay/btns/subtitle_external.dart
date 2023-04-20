@@ -48,9 +48,9 @@ class SubtitleExternal extends StatelessWidget {
                             subtitle: item.source,
                             selected: ezplayer.externalSubtitle?.id == item.id,
                             onPressed: () async {
-                              ezplayer.externalSubtitle = item;
                               String? content = await item.load();
                               if (content != null) {
+                                ezplayer.externalSubtitle = item;
                                 ezplayer.setSubtitle(content);
                               }
                             },
