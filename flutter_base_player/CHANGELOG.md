@@ -1,3 +1,9 @@
+## 0.2.2
+
+- support header
+- support buffer
+- support buffer size
+
 ## 0.2.1
 
 - fix some error

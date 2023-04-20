@@ -94,8 +94,10 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     Future.microtask(() async {
-      await player2
-          .loadNetwork('http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4');
+      await player2.loadNetwork(
+        'http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4',
+        logLevel: LogLevel.info,
+      );
       player2.play();
       player2.setLooping(true);
     });
@@ -199,7 +201,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 onPressed: () async {
                   await player.loadNetwork(
                     inputController.value.text.trim(),
-                    inputController2.value.text.trim(),
+                    // inputController2.value.text.trim(),
                   );
                   player.play();
                 },

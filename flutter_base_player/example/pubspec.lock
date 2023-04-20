@@ -89,10 +89,10 @@ packages:
     dependency: transitive
     description:
       name: flutter_base_player_platform_interface
-      sha256: d421e13feb616d06fed54fa506e780cab234e622f9143846e48bfa82066288a6
+      sha256: "8046d4e2efa946aa74855a2b6807b9845235be092fcc6b5d5524f99df45806ea"
       url: "https://pub.dev"
     source: hosted
-    version: "0.1.8"
+    version: "0.2.0"
   flutter_lints:
     dependency: "direct dev"
     description:
@@ -171,10 +171,10 @@ packages:
     dependency: transitive
     description:
       name: media_kit
-      sha256: "39145cb65556597afa5d00f78e846abd0677610b1f3f859768e300e5c27e1953"
+      sha256: "4c2b3bb600c063ad194934ea7439bce3135cc6b4f9555222c3dc12ca1aa1d85c"
       url: "https://pub.dev"
     source: hosted
-    version: "0.0.5"
+    version: "0.0.5+1"
   media_kit_libs_android_video:
     dependency: transitive
     description:

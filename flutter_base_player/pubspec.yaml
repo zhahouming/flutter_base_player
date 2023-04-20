@@ -1,7 +1,7 @@
 name: flutter_base_player
 description: Universal video player for flutter
 repository: https://github.com/zhahouming/flutter_base_player/flutter_base_player
-version: 0.2.1
+version: 0.2.2
 homepage: https://github.com/zhahouming/flutter_base_player/flutter_base_player
 
 flutter:
@@ -21,11 +21,11 @@ flutter:
 dependencies:
   flutter:
     sdk: flutter
-  flutter_base_player_platform_interface: ^0.1.8
+  flutter_base_player_platform_interface: ^0.2.0
   # flutter_base_player_platform_interface:
   #   path: ../flutter_base_player_platform_interface
-  media_kit: ^0.0.5
-  media_kit_video: ^0.0.5
+  media_kit: ^0.0.5+1
+  media_kit_video: ^0.0.6
   media_kit_native_event_loop: ^1.0.3
   media_kit_libs_android_video: ^1.0.0
   media_kit_libs_windows_video: ^1.0.2          # Windows package for video (& audio) native libraries.

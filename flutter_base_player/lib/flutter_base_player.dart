@@ -6,8 +6,7 @@ import 'package:flutter_base_player_platform_interface/flutter_base_player_platf
 
 export './change_notifier_builder.dart';
 export './flutter_base_player_media_kit.dart';
-export 'package:flutter_base_player_platform_interface/flutter_base_player_platform_interface.dart'
-    show BaseTrack;
+export 'package:flutter_base_player_platform_interface/flutter_base_player_platform_interface.dart';
 
 class FlutterBasePlayer {
   late FlutterBasePlayerPlatform _platform;
@@ -26,21 +25,51 @@ class FlutterBasePlayer {
   String filename = '';
 
   /// assets path example: assets://path/to/your/file.mp4
-  Future<void> loadAssets(String path) {
+  Future<void> loadAssets(
+    String path, {
+    int? bufferSize,
+    LogLevel? logLevel,
+  }) {
     filename = basename(path);
-    return _platform.assets(path);
+    return _platform.assets(
+      path,
+      bufferSize: bufferSize,
+      logLevel: logLevel,
+    );
   }
 
-  Future<void> loadFile(File file) {
+  Future<void> loadFile(
+    File file, {
+    int? bufferSize,
+    LogLevel? logLevel,
+  }) {
     filename = basename(file.path);
-    return _platform.file(file);
+    return _platform.file(
+      file,
+      bufferSize: bufferSize,
+      logLevel: logLevel,
+    );
   }
 
   /// url example: https://www.example.com/sample.mp4
   /// rtsp://www.example.com/live
-  Future<void> loadNetwork(String url, [String? headers]) {
+  Future<void> loadNetwork(
+    String url, {
+    Map? headers,
+    int? bufferSize,
+    LogLevel? logLevel,
+  }) {
     filename = basename(url);
-    return _platform.network(url);
+    return _platform.network(
+      url,
+      headers: headers,
+      bufferSize: bufferSize,
+      logLevel: logLevel,
+    );
+  }
+
+  setProperty(String property, String value) {
+    _platform.setProperty(property, value);
   }
 
   dispose() {

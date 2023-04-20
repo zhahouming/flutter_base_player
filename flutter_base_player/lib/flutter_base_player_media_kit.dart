@@ -93,10 +93,12 @@ class FlutterBasePlayerMediaKitPlayer extends FlutterBasePlayerPlatform {
   @override
   double get buffered => duration.inMilliseconds == 0
       ? 0
-      : position.inMilliseconds / duration.inMilliseconds;
+      : buffer.inMilliseconds / duration.inMilliseconds;
 
   @override
   Duration get duration => _player.state.duration;
+
+  Duration get buffer => _player.state.buffer;
 
   @override
   String get errorMessage => _errorMessage;
@@ -126,32 +128,78 @@ class FlutterBasePlayerMediaKitPlayer extends FlutterBasePlayerPlatform {
 
   @override
   Size get size {
-    double width = _controller?.width?.toDouble() ?? 480;
-    double height = _controller?.height?.toDouble() ?? 360;
+    double width = _player.state.width?.toDouble() ??
+        _controller?.width?.toDouble() ??
+        480;
+    double height = _player.state.height?.toDouble() ??
+        _controller?.height?.toDouble() ??
+        360;
     return Size(width, height);
   }
 
   @override
   double get volume => _player.state.volume;
 
-  initPlayer([String? headers]) async {
+  initPlayer({
+    Map? headers,
+    int? bufferSize,
+    LogLevel? logLevel,
+  }) async {
+    int bufferSize = 32 * 1024 * 1024;
+    MPVLogLevel level = MPVLogLevel.none;
+    if (logLevel == LogLevel.none) {
+      level = MPVLogLevel.none;
+    }
+    if (logLevel == LogLevel.trace) {
+      level = MPVLogLevel.trace;
+    }
+    if (logLevel == LogLevel.debug) {
+      level = MPVLogLevel.debug;
+    }
+    if (logLevel == LogLevel.info) {
+      level = MPVLogLevel.info;
+    }
+    if (logLevel == LogLevel.warn) {
+      level = MPVLogLevel.warn;
+    }
+    if (logLevel == LogLevel.error) {
+      level = MPVLogLevel.error;
+    }
+    if (logLevel == LogLevel.fatal) {
+      level = MPVLogLevel.fatal;
+    }
     _hasError = false;
     _errorMessage = '';
     await _controller?.dispose();
     await _player.dispose();
     __player = Player(
-        configuration: const PlayerConfiguration(logLevel: MPVLogLevel.info));
-    if (headers != null && _player.platform is libmpvPlayer) {
-      (_player.platform as libmpvPlayer)
-          .setProperty("http-header-fields", headers);
+      configuration: PlayerConfiguration(
+        logLevel: level,
+        bufferSize: bufferSize,
+      ),
+    );
+    if (headers != null) {
+      String v = headers.keys.map((k) => '$k: ${headers[k]}').join(',');
+      setProperty("http-header-fields", v);
     }
     _controller = await VideoController.create(_player);
     initListeners();
   }
 
   @override
-  Future<void> assets(String path) async {
-    await initPlayer();
+  setProperty(String property, String value) {
+    if (_player.platform is libmpvPlayer) {
+      (_player.platform as libmpvPlayer).setProperty(property, value);
+    }
+  }
+
+  @override
+  Future<void> assets(
+    String path, {
+    int? bufferSize,
+    LogLevel? logLevel,
+  }) async {
+    await initPlayer(bufferSize: bufferSize, logLevel: logLevel);
     _isLoading = true;
     await _player.open(Media(path));
     _isInitialized = true;
@@ -159,8 +207,12 @@ class FlutterBasePlayerMediaKitPlayer extends FlutterBasePlayerPlatform {
   }
 
   @override
-  Future<void> file(File file) async {
-    await initPlayer();
+  Future<void> file(
+    File file, {
+    int? bufferSize,
+    LogLevel? logLevel,
+  }) async {
+    await initPlayer(bufferSize: bufferSize, logLevel: logLevel);
     _isLoading = true;
     await _player.open(Media(file.path));
     _isInitialized = true;
@@ -168,9 +220,18 @@ class FlutterBasePlayerMediaKitPlayer extends FlutterBasePlayerPlatform {
   }
 
   @override
-  Future<void> network(String url, [String? headers]) async {
+  Future<void> network(
+    String url, {
+    Map? headers,
+    int? bufferSize,
+    LogLevel? logLevel,
+  }) async {
     _isLoading = true;
-    await initPlayer(headers);
+    await initPlayer(
+      headers: headers,
+      bufferSize: bufferSize,
+      logLevel: logLevel,
+    );
     await _player.open(Media(url));
     _isInitialized = true;
     return Future.value();
