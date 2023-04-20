@@ -99,13 +99,41 @@ class _LauncherPageState extends State<LauncherPage> {
                   routerPush(
                     context,
                     (context) => const SafeArea(
-                      child: AssetPage(
-                        asset: 'asset://assets/video/test.mp4',
+                      child: UrlPage(
+                        url:
+                            'https://cd-live-stream.news.cctvplus.com/live/smil:CHANNEL2.smil/playlist.m3u8',
                       ),
                     ),
                   );
                 },
-                child: const Text('load assets')),
+                child: const Text('load live m3u8')),
+            TextButton(
+              onPressed: () async {
+                routerPush(
+                  context,
+                  (context) => const SafeArea(
+                    child: AssetPage(
+                      asset: 'asset://assets/video/test.mp4',
+                    ),
+                  ),
+                );
+              },
+              child: const Text('load assets'),
+            ),
+            TextButton(
+              onPressed: () async {
+                routerPush(
+                  context,
+                  (context) => const SafeArea(
+                    child: AssetPage(
+                      asset: 'asset://assets/video/loop.mov',
+                      loop: true,
+                    ),
+                  ),
+                );
+              },
+              child: const Text('load assets loop'),
+            ),
           ]),
           const SizedBox(height: 30),
           Wrap(

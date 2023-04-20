@@ -4,9 +4,11 @@ import 'package:window_manager/window_manager.dart';
 
 class AssetPage extends StatefulWidget {
   final String asset;
+  final bool loop;
   const AssetPage({
     super.key,
     required this.asset,
+    this.loop = false,
   });
 
   @override
@@ -28,6 +30,9 @@ class _AssetPageState extends State<AssetPage> {
     });
     Future.microtask(() async {
       await player.controller.loadAssets(widget.asset);
+      if (widget.loop) {
+        player.controller.setLooping(true);
+      }
       player.controller.play();
     });
     super.initState();
