@@ -1,3 +1,11 @@
+## 0.1.1
+
+- fix: subtitle selected status
+- feat: add pause mask
+- feat: support headers for `loadNetwork` method
+- feat: support buffer size setting for `loadNetwork` method
+- fix: video size
+
 ## 0.1.0
 
 - use media_kit for android

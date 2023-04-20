@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ezplayer/ezplayer.dart';
+import 'package:window_manager/window_manager.dart';
 
 class AssetPage extends StatefulWidget {
   final String asset;
@@ -17,6 +18,14 @@ class _AssetPageState extends State<AssetPage> {
 
   @override
   void initState() {
+    player.aftterEnterFullscreen.addListener(() {
+      // print('aftterEnterFullscreen');
+      windowManager.setFullScreen(true);
+    });
+    player.aftterExitFullscreen.addListener(() {
+      // print('aftterExitFullscreen');
+      windowManager.setFullScreen(false);
+    });
     Future.microtask(() async {
       await player.controller.loadAssets(widget.asset);
       await player.controller.play();
@@ -38,7 +47,7 @@ class _AssetPageState extends State<AssetPage> {
       ),
       body: Container(
         alignment: const Alignment(0, -0.4),
-        child: player.builder(context),
+        child: player.builder(context, ratio: 4 / 3),
       ),
     );
   }

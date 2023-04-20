@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ezplayer/ezplayer.dart';
+import 'package:window_manager/window_manager.dart';
 // import 'package:flutter_base_player/flutter_base_player.dart';
 
 class UrlPage extends StatefulWidget {
@@ -21,6 +22,14 @@ class _UrlPageState extends State<UrlPage> {
   @override
   void initState() {
     player.setShowBackBtn(true);
+    player.aftterEnterFullscreen.addListener(() {
+      // print('aftterEnterFullscreen');
+      windowManager.setFullScreen(true);
+    });
+    player.aftterExitFullscreen.addListener(() {
+      // print('aftterExitFullscreen');
+      windowManager.setFullScreen(false);
+    });
     player.attachMenu(OverlaySelectItem(
       title: '测试菜单',
       subtitle: 'desc',

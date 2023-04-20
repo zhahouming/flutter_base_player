@@ -121,18 +121,18 @@ packages:
     dependency: "direct main"
     description:
       name: flutter_base_player
-      sha256: b97e6921e4614386b00d7a762ce276636c8c10f7917b2fddedab44980df5ec48
+      sha256: "6c30525e81206b664669196fdb5b9cfb385eb2e5e52a725b6ace524d32ac3080"
       url: "https://pub.dev"
     source: hosted
-    version: "0.2.1"
+    version: "0.2.2"
   flutter_base_player_platform_interface:
     dependency: transitive
     description:
       name: flutter_base_player_platform_interface
-      sha256: d421e13feb616d06fed54fa506e780cab234e622f9143846e48bfa82066288a6
+      sha256: "8046d4e2efa946aa74855a2b6807b9845235be092fcc6b5d5524f99df45806ea"
       url: "https://pub.dev"
     source: hosted
-    version: "0.1.8"
+    version: "0.2.0"
   flutter_bloc:
     dependency: transitive
     description:
@@ -243,10 +243,10 @@ packages:
     dependency: transitive
     description:
       name: media_kit
-      sha256: "39145cb65556597afa5d00f78e846abd0677610b1f3f859768e300e5c27e1953"
+      sha256: "8bac35e276aef07ae116190ca09f086e535b5e7e701056a61608b2b46bfb7481"
       url: "https://pub.dev"
     source: hosted
-    version: "0.0.5"
+    version: "0.0.5+2"
   media_kit_libs_android_video:
     dependency: transitive
     description:
@@ -299,10 +299,10 @@ packages:
     dependency: transitive
     description:
       name: media_kit_video
-      sha256: "2764c42ee4d1aa35cf3acc06cf67a932c8549ec2ed510c9f3976d969ff119746"
+      sha256: "8f8777f616726ce3cccb1a90a6daa8c9e7f685b69606d5ad70ab3d0335b94023"
       url: "https://pub.dev"
     source: hosted
-    version: "0.0.5"
+    version: "0.0.7"
   meta:
     dependency: transitive
     description:

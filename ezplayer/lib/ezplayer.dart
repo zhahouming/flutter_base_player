@@ -212,7 +212,7 @@ class EzPlayer {
                   .div(DivStyle(
                     height: isFullscreen
                         ? MediaQuery.of(context).size.height
-                        : box.maxWidth / controller.aspectRatio,
+                        : box.maxWidth / (ratio ?? controller.aspectRatio),
                     width: isFullscreen
                         ? MediaQuery.of(context).size.width
                         : box.maxWidth,
@@ -224,7 +224,7 @@ class EzPlayer {
               builder: (context) => SizedBox(
                 height: isFullscreen
                     ? MediaQuery.of(context).size.height
-                    : box.maxWidth / controller.aspectRatio,
+                    : box.maxWidth / (ratio ?? controller.aspectRatio),
                 width: isFullscreen
                     ? MediaQuery.of(context).size.width
                     : box.maxWidth,

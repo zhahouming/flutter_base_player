@@ -85,6 +85,27 @@ class _PlayerOverlayState extends State<PlayerOverlay>
                       onVerticalDragEnd: onVerticalDragEnd,
                       onVerticalDragCancel: onVerticalDragCancel,
                     )),
+        if (!widget.controller.isPlaying &&
+            !widget.controller.hasError &&
+            !widget.controller.completed)
+          Container(
+            color: Colors.black54,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                IconButton(
+                  iconSize: 56,
+                  icon: const Icon(
+                    Icons.play_circle,
+                    color: Colors.white70,
+                  ),
+                  onPressed: () {
+                    widget.controller.play();
+                  },
+                ),
+              ],
+            ),
+          ),
         if (widget.controller.completed && !widget.controller.hasError)
           Container(
             // height: box.maxWidth / (ratio ?? aspectRatio),
