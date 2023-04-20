@@ -7,7 +7,7 @@ mixin _OverlayTimerMixin on _BaseMixin {
   togglePlay() {
     if (isPlaying) {
       widget.controller.pause();
-      cancelTimer();
+      timer?.cancel();
     } else {
       widget.controller.play();
       autoHide();
@@ -41,18 +41,13 @@ mixin _OverlayTimerMixin on _BaseMixin {
   }
 
   autoHide() {
-    cancelTimer();
-    timer = Timer(const Duration(seconds: 3), () async {
+    timer?.cancel();
+    timer = Timer(const Duration(seconds: 5), () async {
+      if (!isPlaying) return;
       if (!hidebar) {
         if (mounted) hideBar();
       }
     });
-  }
-
-  cancelTimer() {
-    if (timer != null) {
-      timer!.cancel();
-    }
   }
 
   initTimer() {

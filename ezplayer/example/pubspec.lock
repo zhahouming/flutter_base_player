@@ -118,7 +118,7 @@ packages:
     source: sdk
     version: "0.0.0"
   flutter_base_player:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: flutter_base_player
       sha256: "6c30525e81206b664669196fdb5b9cfb385eb2e5e52a725b6ace524d32ac3080"

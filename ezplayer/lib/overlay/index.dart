@@ -100,7 +100,7 @@ class _PlayerOverlayState extends State<PlayerOverlay>
                     color: Colors.white70,
                   ),
                   onPressed: () {
-                    widget.controller.play();
+                    togglePlay();
                   },
                 ),
               ],

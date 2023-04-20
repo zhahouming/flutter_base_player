@@ -16,12 +16,11 @@ class AudioTrack extends StatelessWidget {
               width: 280,
               list: ezplayer.controller.audioTracks
                   .map((item) => OverlaySelectItem(
-                        title: '${item?.title} ${item?.language ?? ""}',
-                        subtitle: '内嵌音轨 ${item?.id}',
-                        selected:
-                            ezplayer.controller.audioTrack?.id == item?.id,
+                        title: '${item.title} ${item.language ?? ""}',
+                        subtitle: '内嵌音轨 ${item.id}',
+                        selected: ezplayer.controller.audioTrack.id == item.id,
                         onPressed: () {
-                          ezplayer.controller.setAudioTrack(item!);
+                          ezplayer.controller.setAudioTrack(item);
                           // ezplayer.hideOverlay();
                         },
                       ))

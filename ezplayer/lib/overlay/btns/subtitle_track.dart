@@ -16,12 +16,12 @@ class SubtitleTrack extends StatelessWidget {
               width: 280,
               list: ezplayer.controller.subtitleTracks
                   .map((item) => OverlaySelectItem(
-                        title: '${item?.title} ${item?.language ?? ""}',
-                        subtitle: '内嵌字幕  ${item?.id}',
+                        title: '${item.title} ${item.language ?? ""}',
+                        subtitle: '内嵌字幕  ${item.id}',
                         selected:
-                            ezplayer.controller.subtitleTrack?.id == item?.id,
+                            ezplayer.controller.subtitleTrack.id == item.id,
                         onPressed: () {
-                          ezplayer.controller.setSubtitleTrack(item!);
+                          ezplayer.controller.setSubtitleTrack(item);
                           // ezplayer.hideOverlay();
                         },
                       ))

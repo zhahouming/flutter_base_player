@@ -1,3 +1,9 @@
+## 1.0.0
+
+- remove flutter_base_player package
+- support initialDuration
+- some optimization
+
 ## 0.1.1
 
 - fix: subtitle selected status

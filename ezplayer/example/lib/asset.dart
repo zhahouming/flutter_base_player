@@ -28,7 +28,7 @@ class _AssetPageState extends State<AssetPage> {
     });
     Future.microtask(() async {
       await player.controller.loadAssets(widget.asset);
-      await player.controller.play();
+      player.controller.play();
     });
     super.initState();
   }

@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter_base_player/flutter_base_player.dart';
+import '../../../core/index.dart';
 
 import '../../data/data.dart';
 import '../../subtitle_controller.dart';

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ezplayer/ezplayer.dart';
 import 'package:window_manager/window_manager.dart';
-// import 'package:flutter_base_player/flutter_base_player.dart';
 
 class UrlPage extends StatefulWidget {
   final String url;
@@ -46,12 +45,12 @@ class _UrlPageState extends State<UrlPage> {
               width: 280,
               list: player.controller.audioTracks
                   .map((item) => OverlaySelectItem(
-                        title: '${item?.title} ${item?.language ?? ""}',
+                        title: '${item.title} ${item.language ?? ""}',
                         subtitle: '内嵌音轨',
                         selected:
-                            player.controller.audioTrack?.title == item?.title,
+                            player.controller.audioTrack.title == item.title,
                         onPressed: () {
-                          player.controller.setAudioTrack(item!);
+                          player.controller.setAudioTrack(item);
                           // ezplayer.hideOverlay();
                         },
                       ))
@@ -64,8 +63,11 @@ class _UrlPageState extends State<UrlPage> {
     );
     player.attachButton(
       EzplayerTextBtn(
-        text: 'right',
-        onPressed: () {},
+        text: 'seek 21s',
+        onPressed: () {
+          // player.controller
+          //     .setProperty('--start', const Duration(seconds: 21).toString());
+        },
       ),
       ButtonPosition.bottomRight,
     );
@@ -77,7 +79,8 @@ class _UrlPageState extends State<UrlPage> {
       ButtonPosition.right,
     );
     Future.microtask(() async {
-      await player.controller.loadNetwork(widget.url);
+      await player.controller.loadNetwork(widget.url,
+          initialDuration: const Duration(seconds: 10));
       player.controller.play();
     });
     super.initState();

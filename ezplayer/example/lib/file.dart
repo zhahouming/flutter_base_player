@@ -42,7 +42,7 @@ class _FilePageState extends State<FilePage> {
     ];
     Future.microtask(() async {
       await player.controller.loadFile(widget.file);
-      await player.controller.play();
+      player.controller.play();
     });
     super.initState();
   }
