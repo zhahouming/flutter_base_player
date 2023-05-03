@@ -1,6 +1,8 @@
 library extension_widget;
 
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:styled_widget/styled_widget.dart';
 export 'package:styled_widget/styled_widget.dart';
 part 'widgets/ink.dart';
@@ -85,4 +87,75 @@ extension StyledExtensionWidget on Widget {
         blendMode: blendMode,
         child: this,
       );
+  Widget cursor({
+    Key? key,
+    required SystemMouseCursor cursor,
+    bool opaque = true,
+    void Function(PointerEnterEvent)? onEnter,
+    void Function(PointerExitEvent)? onExit,
+    void Function(PointerHoverEvent)? onHover,
+    HitTestBehavior? hitTestBehavior,
+  }) =>
+      MouseRegion(
+        key: key,
+        cursor: cursor,
+        opaque: opaque,
+        onEnter: onEnter,
+        onExit: onExit,
+        onHover: onHover,
+        hitTestBehavior: hitTestBehavior,
+        child: this,
+      );
+
+  Widget stackWidget({
+    Key? key,
+    required StackPosition position,
+    required Widget widget,
+    DivStyle? style,
+    AlignmentGeometry alignment = AlignmentDirectional.topStart,
+    TextDirection? textDirection,
+    StackFit fit = StackFit.loose,
+    Clip clipBehavior = Clip.hardEdge,
+  }) {
+    return Stack(
+      key: key,
+      alignment: alignment,
+      textDirection: textDirection,
+      fit: fit,
+      clipBehavior: clipBehavior,
+      children: position == StackPosition.up
+          ? [Div(style: style, child: this), widget]
+          : [widget, Div(style: style, child: this)],
+    );
+  }
+
+  Widget listener({
+    Key? key,
+    void Function(PointerDownEvent)? onPointerDown,
+    void Function(PointerMoveEvent)? onPointerMove,
+    void Function(PointerUpEvent)? onPointerUp,
+    void Function(PointerHoverEvent)? onPointerHover,
+    void Function(PointerCancelEvent)? onPointerCancel,
+    void Function(PointerPanZoomStartEvent)? onPointerPanZoomStart,
+    void Function(PointerPanZoomUpdateEvent)? onPointerPanZoomUpdate,
+    void Function(PointerPanZoomEndEvent)? onPointerPanZoomEnd,
+    void Function(PointerSignalEvent)? onPointerSignal,
+    HitTestBehavior behavior = HitTestBehavior.deferToChild,
+  }) =>
+      Listener(
+        key: key,
+        onPointerDown: onPointerDown,
+        onPointerMove: onPointerMove,
+        onPointerUp: onPointerUp,
+        onPointerHover: onPointerHover,
+        onPointerCancel: onPointerCancel,
+        onPointerPanZoomStart: onPointerPanZoomStart,
+        onPointerPanZoomUpdate: onPointerPanZoomUpdate,
+        onPointerPanZoomEnd: onPointerPanZoomEnd,
+        onPointerSignal: onPointerSignal,
+        behavior: behavior,
+        child: this,
+      );
 }
+
+enum StackPosition { up, down }
