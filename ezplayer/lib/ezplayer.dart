@@ -155,20 +155,20 @@ class EzPlayer {
   exitFullscreen(BuildContext context) {
     aftterExitFullscreen.notifyListeners();
     fullscreen = false;
-    final rootContext =
+    final renderContext = rootContext ??
         context.findRootAncestorStateOfType<NavigatorState>()?.context;
     return Navigator.of(
-      useRootContext ? (rootContext ?? context) : context,
+      useRootContext ? (renderContext ?? context) : context,
     ).pop();
   }
 
   enterFullscreen(BuildContext context) {
     aftterEnterFullscreen.notifyListeners();
     fullscreen = true;
-    final rootContext =
+    final renderContext = rootContext ??
         context.findRootAncestorStateOfType<NavigatorState>()?.context;
     Navigator.push(
-      useRootContext ? (rootContext ?? context) : context,
+      useRootContext ? (renderContext ?? context) : context,
       MaterialPageRoute(
         builder: (context) => FullScreenVideoPlayer(
           this,
