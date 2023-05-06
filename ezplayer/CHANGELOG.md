@@ -1,3 +1,7 @@
+## 1.0.3
+
+- fix: support specific context
+
 ## 1.0.2
 
 - fix: external subtitle load
