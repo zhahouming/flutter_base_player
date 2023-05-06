@@ -73,10 +73,10 @@ class BottomBar extends StatelessWidget {
                       isFullscreen ? Icons.fullscreen_exit : Icons.fullscreen,
                   onPressed: () {
                     if (isFullscreen) {
-                      ezplayer.exitFullscreen(context);
+                      ezplayer.exitFullscreen(ezplayer.rootContext ?? context);
                       return;
                     }
-                    ezplayer.enterFullscreen(context);
+                    ezplayer.enterFullscreen(ezplayer.rootContext ?? context);
                   },
                 ),
               ],

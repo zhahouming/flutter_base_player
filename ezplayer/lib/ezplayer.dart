@@ -54,6 +54,7 @@ class EzPlayer {
     showBackBtn = visible;
   }
 
+  BuildContext? rootContext;
   List<OverlaySelectItem> menuBtns = [];
   List<EzplayerBtn> bottomLeftBtns = [];
   List<EzplayerBtn> bottomRightBtns = [];
@@ -169,12 +170,14 @@ class EzPlayer {
 
   Widget builder(
     BuildContext context, {
+    BuildContext? rootContext,
     double? ratio,
     Color? color,
     bool isFullscreen = false,
     bool showControls = true,
   }) {
     fullscreen = isFullscreen;
+    this.rootContext = rootContext;
     return LayoutBuilder(builder: (context, box) {
       return RawKeyboardListener(
         focusNode: FocusNode(),

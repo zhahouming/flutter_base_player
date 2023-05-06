@@ -21,9 +21,9 @@ mixin _OverlayTimerMixin on _BaseMixin {
 
   onDoubleTap() {
     if (widget.ezplayer.fullscreen) {
-      widget.ezplayer.exitFullscreen(context);
+      widget.ezplayer.exitFullscreen(widget.ezplayer.rootContext ?? context);
     } else {
-      widget.ezplayer.enterFullscreen(context);
+      widget.ezplayer.enterFullscreen(widget.ezplayer.rootContext ?? context);
     }
   }
 
