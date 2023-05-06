@@ -1,6 +1,10 @@
-## 1.0.3
+## 1.0.4
 
 - fix: support specific context
+
+## 1.0.3
+
+- feat: support specific context
 
 ## 1.0.2
 

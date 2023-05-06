@@ -45,6 +45,10 @@ part 'mixins/methods.dart';
 enum ButtonPosition { left, right, bottomLeft, bottomRight }
 
 class EzPlayer {
+  EzPlayer({
+    this.useRootContext = false,
+    this.rootContext,
+  });
   static initialize() {
     FlutterBasePlayer.initialize();
   }
@@ -54,6 +58,7 @@ class EzPlayer {
     showBackBtn = visible;
   }
 
+  bool useRootContext = false;
   BuildContext? rootContext;
   List<OverlaySelectItem> menuBtns = [];
   List<EzplayerBtn> bottomLeftBtns = [];
@@ -150,14 +155,20 @@ class EzPlayer {
   exitFullscreen(BuildContext context) {
     aftterExitFullscreen.notifyListeners();
     fullscreen = false;
-    return Navigator.of(context).pop();
+    final rootContext =
+        context.findRootAncestorStateOfType<NavigatorState>()?.context;
+    return Navigator.of(
+      useRootContext ? (rootContext ?? context) : context,
+    ).pop();
   }
 
   enterFullscreen(BuildContext context) {
     aftterEnterFullscreen.notifyListeners();
     fullscreen = true;
+    final rootContext =
+        context.findRootAncestorStateOfType<NavigatorState>()?.context;
     Navigator.push(
-      context,
+      useRootContext ? (rootContext ?? context) : context,
       MaterialPageRoute(
         builder: (context) => FullScreenVideoPlayer(
           this,
@@ -170,14 +181,12 @@ class EzPlayer {
 
   Widget builder(
     BuildContext context, {
-    BuildContext? rootContext,
     double? ratio,
     Color? color,
     bool isFullscreen = false,
     bool showControls = true,
   }) {
     fullscreen = isFullscreen;
-    this.rootContext = rootContext;
     return LayoutBuilder(builder: (context, box) {
       return RawKeyboardListener(
         focusNode: FocusNode(),
