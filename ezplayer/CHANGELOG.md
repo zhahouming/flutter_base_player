@@ -1,3 +1,7 @@
+## 1.0.5
+
+- feat: support builder size
+
 ## 1.0.4
 
 - fix: support specific context

@@ -179,15 +179,25 @@ class EzPlayer {
     );
   }
 
+  // height、width仅在非全屏状态下生效
   Widget builder(
     BuildContext context, {
     double? ratio,
     Color? color,
     bool isFullscreen = false,
     bool showControls = true,
+    double? height,
+    double? width,
   }) {
     fullscreen = isFullscreen;
     return LayoutBuilder(builder: (context, box) {
+      double renderHeight = isFullscreen
+          ? MediaQuery.of(context).size.height
+          : height ?? (box.maxWidth / (ratio ?? controller.aspectRatio));
+      double renderWidth = isFullscreen
+          ? MediaQuery.of(context).size.width
+          : width ?? box.maxWidth;
+
       return RawKeyboardListener(
         focusNode: FocusNode(),
         autofocus: true,
@@ -223,12 +233,8 @@ class EzPlayer {
               builder: (context) => controller
                   .builder(context, fit: cutStyle, ratio: ratio, color: color)
                   .div(DivStyle(
-                    height: isFullscreen
-                        ? MediaQuery.of(context).size.height
-                        : box.maxWidth / (ratio ?? controller.aspectRatio),
-                    width: isFullscreen
-                        ? MediaQuery.of(context).size.width
-                        : box.maxWidth,
+                    height: renderHeight,
+                    width: renderWidth,
                     backgroundColor: color ?? Colors.black,
                   )),
               notifier: controller.eventStream,
@@ -236,12 +242,8 @@ class EzPlayer {
             if (showControls)
               ChangeNotifierBuilder(
                 builder: (context) => SizedBox(
-                  height: isFullscreen
-                      ? MediaQuery.of(context).size.height
-                      : box.maxWidth / (ratio ?? controller.aspectRatio),
-                  width: isFullscreen
-                      ? MediaQuery.of(context).size.width
-                      : box.maxWidth,
+                  height: renderHeight,
+                  width: renderWidth,
                   child: PlayerOverlay(
                     controller: controller,
                     ezplayer: this,

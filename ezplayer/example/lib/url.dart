@@ -101,7 +101,12 @@ class _UrlPageState extends State<UrlPage> {
       body: Container(
         // height: 300,
         width: MediaQuery.of(context).size.width,
-        child: player.builder(context),
+        height: MediaQuery.of(context).size.height,
+
+        child: player.builder(
+          context,
+          height: MediaQuery.of(context).size.height,
+        ),
       ),
     );
   }
