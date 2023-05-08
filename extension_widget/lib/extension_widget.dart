@@ -22,6 +22,17 @@ extension StyledExtensionWidget on Widget {
         child: this,
       );
 
+  Widget shouldClip(bool clip, BorderRadius borderRadius) {
+    if (clip) {
+      return ClipRRect(
+        borderRadius: borderRadius,
+        child: this,
+      );
+    } else {
+      return this;
+    }
+  }
+
   Widget ink(
     Function()? onPressed, {
     double radius = 5,

@@ -20,10 +20,10 @@ class BlurDiv extends StatelessWidget {
       return AnimatedContainer(
         duration: const Duration(milliseconds: 1000),
         constraints: BoxConstraints(
-          maxHeight: divStyle.maxHeight!,
-          minHeight: divStyle.minHeight!,
-          maxWidth: divStyle.maxWidth!,
-          minWidth: divStyle.minWidth!,
+          maxHeight: divStyle.maxHeight,
+          minHeight: divStyle.minHeight,
+          maxWidth: divStyle.maxWidth,
+          minWidth: divStyle.minWidth,
         ),
         decoration: BoxDecoration(
           borderRadius:
@@ -69,10 +69,10 @@ class BlurDiv extends StatelessWidget {
             ),
       ),
       constraints: BoxConstraints(
-        maxHeight: divStyle.maxHeight!,
-        minHeight: divStyle.minHeight!,
-        maxWidth: divStyle.maxWidth!,
-        minWidth: divStyle.minWidth!,
+        maxHeight: divStyle.maxHeight,
+        minHeight: divStyle.minHeight,
+        maxWidth: divStyle.maxWidth,
+        minWidth: divStyle.minWidth,
       ),
       margin: EdgeInsets.only(
         top: divStyle.marginTop!,

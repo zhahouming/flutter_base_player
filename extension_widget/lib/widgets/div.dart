@@ -5,11 +5,11 @@ part of '../extension_widget.dart';
 ///
 class DivStyle {
   // required:
-  double? minWidth;
-  double? maxWidth;
+  double minWidth;
+  double maxWidth;
 
-  double? minHeight;
-  double? maxHeight;
+  double minHeight;
+  double maxHeight;
 
   double? marginAll;
   double? marginLR; // 左右
@@ -32,6 +32,7 @@ class DivStyle {
   double? radiusTR; // 右上
   double? radiusBL; // 左下
   double? radiusBR; // 右下
+  bool clip; // 增强radius，解决部分场景borderRadius不生效的问题
 
   // not required:
   double? height;
@@ -73,6 +74,7 @@ class DivStyle {
     this.radiusTR,
     this.radiusBL,
     this.radiusBR,
+    this.clip = false,
     // 背景颜色
     this.backgroundColor,
     this.border,
@@ -162,12 +164,20 @@ class Div extends StatelessWidget {
         height: style?.height,
         width: style?.width,
         constraints: BoxConstraints(
-          minWidth: divStyle.minWidth!,
-          maxWidth: divStyle.maxWidth!,
-          minHeight: divStyle.minHeight!,
-          maxHeight: divStyle.maxHeight!,
+          minWidth: divStyle.minWidth,
+          maxWidth: divStyle.maxWidth,
+          minHeight: divStyle.minHeight,
+          maxHeight: divStyle.maxHeight,
         ),
         child: child,
+      ).shouldClip(
+        divStyle.clip,
+        BorderRadius.only(
+          topLeft: Radius.circular(divStyle.radiusTL!),
+          topRight: Radius.circular(divStyle.radiusTR!),
+          bottomLeft: Radius.circular(divStyle.radiusBL!),
+          bottomRight: Radius.circular(divStyle.radiusBR!),
+        ),
       );
     }
 
@@ -204,12 +214,20 @@ class Div extends StatelessWidget {
       height: style?.height,
       width: style?.width,
       constraints: BoxConstraints(
-        minWidth: divStyle.minWidth!,
-        maxWidth: divStyle.maxWidth!,
-        minHeight: divStyle.minHeight!,
-        maxHeight: divStyle.maxHeight!,
+        minWidth: divStyle.minWidth,
+        maxWidth: divStyle.maxWidth,
+        minHeight: divStyle.minHeight,
+        maxHeight: divStyle.maxHeight,
       ),
       child: child,
+    ).shouldClip(
+      divStyle.clip,
+      BorderRadius.only(
+        topLeft: Radius.circular(divStyle.radiusTL!),
+        topRight: Radius.circular(divStyle.radiusTR!),
+        bottomLeft: Radius.circular(divStyle.radiusBL!),
+        bottomRight: Radius.circular(divStyle.radiusBR!),
+      ),
     );
   }
 }

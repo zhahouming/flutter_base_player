@@ -1,3 +1,7 @@
+## 0.1.1
+- feat: shouldClip
+- feat: div add bool clip
+
 ## 0.1.0
 - feat: cursor
 - feat: stackWidget
