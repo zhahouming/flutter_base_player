@@ -1,3 +1,6 @@
+## 0.1.2
+- fix: cursor wdiget
+
 ## 0.1.1
 - feat: shouldClip
 - feat: div add bool clip

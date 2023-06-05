@@ -100,7 +100,7 @@ extension StyledExtensionWidget on Widget {
       );
   Widget cursor({
     Key? key,
-    required SystemMouseCursor cursor,
+    required MouseCursor cursor,
     bool opaque = true,
     void Function(PointerEnterEvent)? onEnter,
     void Function(PointerExitEvent)? onExit,
