@@ -17,7 +17,6 @@ mixin _PlayerInstanceMixin on _InternalMixin {
     _hasError = false;
     _errorMessage = '';
 
-    await _controller?.dispose();
     await _player.dispose();
 
     __player = Player(
@@ -35,6 +34,6 @@ mixin _PlayerInstanceMixin on _InternalMixin {
     }
     (_player.platform as libmpvPlayer)
         .setProperty("start", initialDuration.toString());
-    _controller = await VideoController.create(_player);
+    _controller = VideoController(_player);
   }
 }

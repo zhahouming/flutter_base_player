@@ -132,7 +132,6 @@ class FlutterBasePlayer with _InternalMixin, _PlayerInstanceMixin, _StateMixin {
 
   void dispose() {
     Future.microtask(() async {
-      await _controller?.dispose();
       await _player.dispose();
       eventStream.dispose();
       precompleteStream.dispose();
@@ -194,13 +193,14 @@ class FlutterBasePlayer with _InternalMixin, _PlayerInstanceMixin, _StateMixin {
           return Stack(
             alignment: Alignment.center,
             children: [
-              Video(
-                fit: fit ?? BoxFit.contain,
-                controller: _controller,
-                width: box.maxWidth,
-                height: box.maxWidth / (ratio ?? aspectRatio),
-                fill: color ?? Colors.black,
-              ),
+              if (_controller != null)
+                Video(
+                  fit: fit ?? BoxFit.contain,
+                  controller: _controller!,
+                  width: box.maxWidth,
+                  height: box.maxWidth / (ratio ?? aspectRatio),
+                  fill: color ?? Colors.black,
+                ),
               if (isBuffering && !hasError)
                 Container(
                   height: box.maxWidth / (ratio ?? aspectRatio),

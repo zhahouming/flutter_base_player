@@ -1,7 +1,7 @@
 name: ezplayer
 description: easy video player for flutter
 repository: https://github.com/zhahouming/flutter_base_player/ezplayer
-version: 1.0.5
+version: 1.0.6
 homepage: https://github.com/zhahouming/flutter_base_player/ezplayer
 
 environment:
@@ -22,14 +22,14 @@ dependencies:
   http: ^0.13.5
   equatable: ^2.0.5
   flutter_colorpicker: ^1.0.3
-  media_kit: ^0.0.5+1
-  media_kit_video: ^0.0.6
-  media_kit_native_event_loop: ^1.0.3
-  media_kit_libs_android_video: ^1.0.0
-  media_kit_libs_windows_video: ^1.0.2          # Windows package for video (& audio) native libraries.
-  media_kit_libs_ios_video: ^1.0.4              # iOS package for video (& audio) native libraries.
-  media_kit_libs_macos_video: ^1.0.4            # macOS package for video (& audio) native libraries.
-  media_kit_libs_linux: ^1.0.2 
+  media_kit: ^0.0.11                             # Primary package.
+  media_kit_video: ^0.0.12                       # For video rendering.
+  media_kit_native_event_loop: ^1.0.4            # Support for higher number of concurrent instances & better performance.
+  media_kit_libs_android_video: ^1.0.6           # Android package for video native libraries.
+  media_kit_libs_ios_video: ^1.0.4               # iOS package for video native libraries.
+  media_kit_libs_macos_video: ^1.0.5             # macOS package for video native libraries.
+  media_kit_libs_windows_video: ^1.0.2           # Windows package for video native libraries.
+  media_kit_libs_linux: ^1.0.2                   # GNU/Linux dependency package.
   path: ^1.8.2
 
 dev_dependencies:

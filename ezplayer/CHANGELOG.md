@@ -1,3 +1,8 @@
+## 1.0.6
+
+- fix: windows bug
+- feat: update media_kit version
+
 ## 1.0.5
 
 - feat: support builder size

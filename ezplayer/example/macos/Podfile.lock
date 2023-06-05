@@ -51,9 +51,9 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   flutter_volume_controller: 25d09126b0d695560f11c80b1311d5063fed882f
   FlutterMacOS: 8f6f14fa908a6fb3fba0cd85dbd81ec4b251fb24
-  media_kit_libs_macos_video: 945a27119b0d3e04b35b267972bbf7068101063d
-  media_kit_native_event_loop: 9a1b256cfb11adcaebd13a2969c617720c3187e0
-  media_kit_video: 007acd0fce8002e6c8cd0b97a1daaf45b1aaba55
+  media_kit_libs_macos_video: 0a4a5bf21533cba968c0833f1b59e9af8b5847f1
+  media_kit_native_event_loop: 6cf347b98de9735713a86c188467a008af5f860e
+  media_kit_video: 1e311a3dfe41f276935f95518b51a0c3ff72114f
   screen_brightness_macos: 2d6d3af2165592d9a55ffcd95b7550970e41ebda
   screen_retriever: 59634572a57080243dd1bf715e55b6c54f241a38
   wakelock_macos: bc3f2a9bd8d2e6c89fee1e1822e7ddac3bd004a9

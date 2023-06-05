@@ -35,12 +35,8 @@ mixin _StateMixin on _PlayerInstanceMixin {
   Duration get position => _player.state.position;
 
   Size get size {
-    double width = _player.state.width?.toDouble() ??
-        _controller?.width?.toDouble() ??
-        480;
-    double height = _player.state.height?.toDouble() ??
-        _controller?.height?.toDouble() ??
-        360;
+    double width = _player.state.width?.toDouble() ?? 480;
+    double height = _player.state.height?.toDouble() ?? 360;
     return Size(width, height);
   }
 
