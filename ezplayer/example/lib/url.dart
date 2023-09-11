@@ -65,6 +65,7 @@ class _UrlPageState extends State<UrlPage> {
       EzplayerTextBtn(
         text: 'seek 21s',
         onPressed: () {
+          player.controller.seek(const Duration(seconds: 21));
           // player.controller
           //     .setProperty('--start', const Duration(seconds: 21).toString());
         },

@@ -30,7 +30,7 @@ class _PlayerOverlayState extends State<PlayerOverlay>
     initProgress();
     initDragTB();
     initDragBottom();
-    Wakelock.enable();
+    WakelockPlus.enable();
     super.initState();
   }
 

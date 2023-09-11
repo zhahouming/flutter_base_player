@@ -21,18 +21,18 @@ mixin _PlayerInstanceMixin on _InternalMixin {
 
     __player = Player(
       configuration: PlayerConfiguration(
-        logLevel: logLevel ?? MPVLogLevel.none,
+        logLevel: logLevel ?? MPVLogLevel.error,
         bufferSize: bufferSize ?? 32 * 1024 * 1024,
       ),
     );
 
     if (headers != null) {
-      if (_player.platform is libmpvPlayer) {
+      if (_player.platform is NativePlayer) {
         String v = headers.keys.map((k) => '$k: ${headers[k]}').join(',');
-        (_player.platform as libmpvPlayer).setProperty("http-header-fields", v);
+        (_player.platform as NativePlayer).setProperty("http-header-fields", v);
       }
     }
-    (_player.platform as libmpvPlayer)
+    (_player.platform as NativePlayer)
         .setProperty("start", initialDuration.toString());
     _controller = VideoController(_player);
   }
