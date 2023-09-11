@@ -84,18 +84,18 @@ class FlutterBasePlayer with _InternalMixin, _PlayerInstanceMixin, _StateMixin {
   }
 
   _initListeners() {
-    _player.streams.audioBitrate.listen(notifyListener);
-    _player.streams.audioDevice.listen(notifyListener);
-    _player.streams.audioDevices.listen(notifyListener);
-    _player.streams.audioParams.listen(notifyListener);
-    _player.streams.buffering.listen(notifyListener);
-    _player.streams.completed.listen(notifyListener);
-    _player.streams.duration.listen(notifyListener);
+    _player.stream.audioBitrate.listen(notifyListener);
+    _player.stream.audioDevice.listen(notifyListener);
+    _player.stream.audioDevices.listen(notifyListener);
+    _player.stream.audioParams.listen(notifyListener);
+    _player.stream.buffering.listen(notifyListener);
+    _player.stream.completed.listen(notifyListener);
+    _player.stream.duration.listen(notifyListener);
 
-    _player.streams.error.listen((event) {
+    _player.stream.error.listen((event) {
       notifyListener(event);
     });
-    _player.streams.log.listen((event) {
+    _player.stream.log.listen((event) {
       if ((event.level == 'error' && event.prefix == 'stream') ||
           event.level == 'fatal') {
         _hasError = true;
@@ -103,14 +103,14 @@ class FlutterBasePlayer with _InternalMixin, _PlayerInstanceMixin, _StateMixin {
       }
       notifyListener(event);
     });
-    _player.streams.pitch.listen(notifyListener);
-    _player.streams.playing.listen(notifyListener);
-    _player.streams.playlist.listen(notifyListener);
-    _player.streams.position.listen(_handlePosition);
-    _player.streams.rate.listen(notifyListener);
-    _player.streams.track.listen(notifyListener);
-    _player.streams.tracks.listen(notifyListener);
-    _player.streams.volume.listen(notifyListener);
+    _player.stream.pitch.listen(notifyListener);
+    _player.stream.playing.listen(notifyListener);
+    _player.stream.playlist.listen(notifyListener);
+    _player.stream.position.listen(_handlePosition);
+    _player.stream.rate.listen(notifyListener);
+    _player.stream.track.listen(notifyListener);
+    _player.stream.tracks.listen(notifyListener);
+    _player.stream.volume.listen(notifyListener);
   }
 
   _handlePosition(event) {
@@ -125,8 +125,8 @@ class FlutterBasePlayer with _InternalMixin, _PlayerInstanceMixin, _StateMixin {
   }
 
   setProperty(String property, String value) {
-    if (_player.platform is libmpvPlayer) {
-      (_player.platform as libmpvPlayer).setProperty(property, value);
+    if (_player.platform is NativePlayer) {
+      (_player.platform as NativePlayer).setProperty(property, value);
     }
   }
 

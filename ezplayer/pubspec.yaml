@@ -6,7 +6,7 @@ homepage: https://github.com/zhahouming/flutter_base_player/ezplayer
 
 environment:
   sdk: '>=2.19.6 <3.0.0'
-  flutter: ">=1.17.0"
+  flutter: ">=3.7.0"
 
 dependencies:
   flutter:
