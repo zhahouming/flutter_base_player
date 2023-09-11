@@ -200,6 +200,7 @@ class FlutterBasePlayer with _InternalMixin, _PlayerInstanceMixin, _StateMixin {
                   width: box.maxWidth,
                   height: box.maxWidth / (ratio ?? aspectRatio),
                   fill: color ?? Colors.black,
+                  controls: NoVideoControls,
                 ),
               if (isBuffering && !hasError)
                 Container(
