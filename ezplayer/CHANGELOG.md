@@ -1,3 +1,7 @@
+## 1.0.7
+
+- fix: update media_kit to v1.1.7
+
 ## 1.0.6
 
 - fix: windows bug
