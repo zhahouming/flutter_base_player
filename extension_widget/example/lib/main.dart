@@ -32,6 +32,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
+  double size = 50;
 
   void _incrementCounter() {
     setState(() {
@@ -43,7 +44,25 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        backgroundColor: Colors.white,
+        actions: [
+          TextButton(
+            onPressed: () {
+              setState(() {
+                size = 100;
+              });
+            },
+            child: const Text('size 100'),
+          ),
+          TextButton(
+            onPressed: () {
+              setState(() {
+                size = 50;
+              });
+            },
+            child: const Text('size 50'),
+          ),
+        ],
       ),
       body: Center(
         child: Column(
@@ -56,13 +75,15 @@ class _MyHomePageState extends State<MyHomePage> {
               '$_counter',
               style: Theme.of(context).textTheme.headlineMedium,
             )
-                .div(DivStyle(
-                  width: 50,
-                  height: 50,
-                  backgroundColor: Colors.grey,
-                  alignment: Alignment.center,
-                  radiusAll: 25,
-                ))
+                .div(
+                    DivStyle(
+                      width: size,
+                      height: size,
+                      backgroundColor: Colors.grey,
+                      alignment: Alignment.center,
+                      radiusAll: 25,
+                    ),
+                    true)
                 .div(DivStyle(
                   paddingAll: 10,
                   backgroundColor: Colors.blue,

@@ -16,9 +16,10 @@ extension StyledExtensionWidget on Widget {
         child: this,
       );
 
-  Widget div([DivStyle? style]) => Div(
+  Widget div([DivStyle? style, bool? animate]) => Div(
         key: key,
         style: style,
+        animate: animate ?? false,
         child: this,
       );
 
@@ -48,19 +49,21 @@ extension StyledExtensionWidget on Widget {
         child: this,
       );
 
-  Widget blurdiv(DivStyle? style, {double blur = 14}) => BlurDiv(
+  Widget blurdiv(DivStyle? style, {double blur = 14, bool? animate}) => BlurDiv(
         key: key,
         blur: blur,
         style: style,
+        animate: animate ?? false,
         child: this,
       );
 
-  Widget navblur(Brightness brightness) => BlurDiv(
+  Widget navblur(Brightness brightness, bool? animate) => BlurDiv(
         style: DivStyle(
           backgroundColor:
               brightness == Brightness.dark ? Colors.black12 : Colors.white38,
           border: const Border.fromBorderSide(BorderSide.none),
         ),
+        animate: animate ?? false,
         blur: 14,
         child: this,
       );

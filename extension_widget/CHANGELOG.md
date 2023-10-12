@@ -1,3 +1,6 @@
+## 0.1.4
+- feat: add animate support
+
 ## 0.1.2
 - fix: cursor wdiget
 

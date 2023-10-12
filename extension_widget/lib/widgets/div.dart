@@ -133,6 +133,8 @@ class Div extends StatelessWidget {
     if (animate) {
       return AnimatedContainer(
         duration: const Duration(milliseconds: 500),
+        // duration: Duration.zero,
+        curve: Curves.decelerate,
         alignment: style?.alignment,
         decoration: BoxDecoration(
           gradient: style?.gradient,
