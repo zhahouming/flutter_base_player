@@ -36,15 +36,34 @@ extension StyledExtensionWidget on Widget {
 
   Widget ink(
     Function()? onPressed, {
+    Key? key,
     double radius = 5,
     Function()? onLongPressed,
     Function()? onDoubleTap,
+    final void Function(TapDownDetails)? onTapDown,
+    final void Function(TapUpDetails)? onTapUp,
+    final void Function()? onTapCancel,
+    final void Function()? onSecondaryTap,
+    final void Function(TapUpDetails)? onSecondaryTapUp,
+    final void Function(TapDownDetails)? onSecondaryTapDown,
+    final void Function()? onSecondaryTapCancel,
+    final void Function(bool)? onHighlightChanged,
+    final void Function(bool)? onHover,
   }) =>
       EzInk(
         key: key,
         onPressed: onPressed,
         onLongPressed: onLongPressed,
         onDoubleTap: onDoubleTap,
+        onTapDown: onTapDown,
+        onTapUp: onTapUp,
+        onTapCancel: onTapCancel,
+        onSecondaryTap: onSecondaryTap,
+        onSecondaryTapUp: onSecondaryTapUp,
+        onSecondaryTapDown: onSecondaryTapDown,
+        onSecondaryTapCancel: onSecondaryTapCancel,
+        onHighlightChanged: onHighlightChanged,
+        onHover: onHover,
         radius: radius,
         child: this,
       );

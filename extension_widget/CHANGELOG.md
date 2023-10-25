@@ -1,3 +1,6 @@
+## 0.1.5
+- feat: ink
+
 ## 0.1.4
 - feat: add animate support
 
