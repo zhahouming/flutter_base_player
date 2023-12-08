@@ -1,3 +1,6 @@
+## 0.1.6
+- feat: navblur add transparent param
+
 ## 0.1.5
 - feat: ink
 

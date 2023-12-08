@@ -76,16 +76,20 @@ extension StyledExtensionWidget on Widget {
         child: this,
       );
 
-  Widget navblur(Brightness brightness, bool? animate) => BlurDiv(
-        style: DivStyle(
-          backgroundColor:
-              brightness == Brightness.dark ? Colors.black12 : Colors.white38,
-          border: const Border.fromBorderSide(BorderSide.none),
-        ),
-        animate: animate ?? false,
-        blur: 14,
-        child: this,
-      );
+  Widget navblur(Brightness brightness, bool? animate, bool transparent) =>
+      transparent
+          ? this
+          : BlurDiv(
+              style: DivStyle(
+                backgroundColor: brightness == Brightness.dark
+                    ? Colors.black12
+                    : Colors.white38,
+                border: const Border.fromBorderSide(BorderSide.none),
+              ),
+              animate: animate ?? false,
+              blur: 14,
+              child: this,
+            );
 
   Widget syyLinearGradient(
     List<Color> colors, {
