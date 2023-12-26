@@ -2,6 +2,7 @@ library core_player;
 
 import 'dart:async';
 import 'dart:io';
+import 'package:extension_widget/extension_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:media_kit/media_kit.dart';
 import 'package:media_kit_video/media_kit_video.dart';
@@ -96,8 +97,9 @@ class FlutterBasePlayer with _InternalMixin, _PlayerInstanceMixin, _StateMixin {
       notifyListener(event);
     });
     _player.stream.log.listen((event) {
-      if ((event.level == 'error' && event.prefix == 'stream') ||
-          event.level == 'fatal') {
+      _errorLogs.add(event.toString());
+      if ((event.level == 'error' || event.level == 'fatal') &&
+          event.prefix == 'stream') {
         _hasError = true;
         _errorMessage = event.text;
       }
@@ -197,19 +199,19 @@ class FlutterBasePlayer with _InternalMixin, _PlayerInstanceMixin, _StateMixin {
                 Video(
                   fit: fit ?? BoxFit.contain,
                   controller: _controller!,
-                  width: box.maxWidth,
-                  height: box.maxWidth / (ratio ?? aspectRatio),
+                  // width: box.maxWidth,
+                  // height: box.maxWidth / (ratio ?? aspectRatio),
                   fill: color ?? Colors.black,
                   controls: NoVideoControls,
-                ),
+                ).div(DivStyle(alignment: Alignment.center)),
               if (isBuffering && !hasError)
                 Container(
                   height: box.maxWidth / (ratio ?? aspectRatio),
                   width: box.maxWidth,
                   color: Colors.black54,
-                  child: Column(
+                  child: const Column(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: const [
+                    children: [
                       CircularProgressIndicator(strokeWidth: 1),
                       SizedBox(height: 20),
                       Text(
@@ -225,9 +227,9 @@ class FlutterBasePlayer with _InternalMixin, _PlayerInstanceMixin, _StateMixin {
                   height: box.maxWidth / (ratio ?? aspectRatio),
                   width: box.maxWidth,
                   color: Colors.black54,
-                  child: Column(
+                  child: const Column(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: const [
+                    children: [
                       CircularProgressIndicator(strokeWidth: 1),
                       SizedBox(height: 20),
                       Text(

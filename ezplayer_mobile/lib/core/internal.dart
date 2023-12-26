@@ -7,6 +7,7 @@ mixin _InternalMixin {
   bool _isLooping = false;
   bool _hasError = false;
   String _errorMessage = '';
+  List<String> _errorLogs = [];
 
   bool _isLoading = false;
 

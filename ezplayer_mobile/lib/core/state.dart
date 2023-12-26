@@ -19,7 +19,9 @@ mixin _StateMixin on _PlayerInstanceMixin {
   Duration get buffer => _player.state.buffer;
 
   String get errorMessage => _errorMessage;
+  List<String> get errorLogs => _errorLogs;
 
+  VideoController get controller => _controller!;
   bool get hasError => _hasError;
 
   bool get isBuffering => _player.state.buffering;

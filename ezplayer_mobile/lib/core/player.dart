@@ -16,6 +16,7 @@ mixin _PlayerInstanceMixin on _InternalMixin {
   }) async {
     _hasError = false;
     _errorMessage = '';
+    _errorLogs = [];
 
     await _player.dispose();
 

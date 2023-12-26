@@ -44,7 +44,6 @@ class _PlayerOverlayState extends State<PlayerOverlay>
                   style: DivStyle(
                     height: box.maxHeight,
                     width: box.maxWidth,
-                    backgroundColor: Colors.black12,
                   ),
                 )
                     .subtitle(
