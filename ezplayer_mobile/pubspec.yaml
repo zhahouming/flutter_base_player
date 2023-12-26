@@ -1,0 +1,35 @@
+name: ezplayer
+description: easy video player for flutter
+repository: https://github.com/zhahouming/flutter_base_player/ezplayer
+version: 1.1.0
+homepage: https://github.com/zhahouming/flutter_base_player/ezplayer
+
+environment:
+  sdk: '>=2.19.6 <=4.0.0'
+  flutter: ">=3.7.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_volume_controller: ^1.2.5
+  screen_brightness: ^0.2.2
+  extension_widget: ^0.0.1
+  date_format: ^2.0.7
+  wakelock_plus: ^1.1.1
+  flutter_bloc: ^8.1.2
+  bloc: ^8.1.1
+  http_parser: ^4.0.2
+  http: ^1.1.0
+  equatable: ^2.0.5
+  flutter_colorpicker: ^1.0.3
+  media_kit: ^1.1.8                              # Primary package.
+  media_kit_video: ^1.2.1                        # For video rendering.
+  media_kit_libs_video: ^1.0.3                   # Native video dependencies.
+  path: ^1.8.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^2.0.0
+
+flutter:
