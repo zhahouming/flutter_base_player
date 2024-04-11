@@ -25,14 +25,6 @@ public class InodePlugin: NSObject, FlutterPlugin {
     } else {
       result(FlutterMethodNotImplemented)
     }
-
-
-    // switch call.method {
-    // case "getInode":
-    //   result(11111111111)
-    // default:
-    //   result(FlutterMethodNotImplemented)
-    // }
   }
 
   private func getFileInode(for path: String) throws -> UInt64 {
